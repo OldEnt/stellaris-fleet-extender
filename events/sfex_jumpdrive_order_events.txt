@@ -1,0 +1,170 @@
+# Set up mod installed global_flag.
+namespace = sfex_jumpdrive_order
+event = {
+	id = sfex_jumpdrive_order.1
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		NOT = {
+			has_global_flag = sfex_jumpdrive_order_installed
+		}
+	}
+	immediate = {
+		set_global_flag = sfex_jumpdrive_order_installed
+	}
+}
+
+fleet_event = {
+	id = sfex_jumpdrive_order.2
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		clear_orders = yes
+		clear_fleet_actions = this
+		set_variable = {
+			which = acemod_var_fleet_piloted_exclusion			# acemod_set_fleet_piloted_exclusion_on = yes
+			value = 1
+		}
+		set_timed_fleet_flag = {
+			flag = sfex_fleet_flag_jumpdrive_windup
+			days = 15			# sfex_var_fleet_jumpdrive_windup +1
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = sfex_gfx_disabled
+				}
+			}
+			every_owned_ship = {
+				create_ambient_object = {
+					type = sfex_gfx_ambient_object_jumpdrive_windup
+					use_3d_location = yes
+					entity_face_object = this
+					entity_scale_to_size = yes
+					location = this
+					duration = 12					# does not accept variable
+				}
+				last_created_ambient_object = {
+					set_ambient_object_flag = sfex_gfx_ambient_object_flag_jumpdrive_windup
+				}
+			}
+		}
+		fleet_event = {
+			id = sfex_jumpdrive_order.3			# jumpdrive_windup
+			days = 13			# does not accept variable
+		}
+	}
+}
+
+fleet_event = {
+	id = sfex_jumpdrive_order.3
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		if = {
+			limit = {
+				is_variable_set = sfex_fleet_order_var_jumpdrive_custom_max_range_set
+			}
+			clear_variable = sfex_fleet_order_var_jumpdrive_custom_max_range_set
+		}
+		if = {
+			limit = {
+				exists = event_target:sfex_core_event_target_1
+			}
+			set_variable = {
+				which = acemod_var_fleet_piloted_exclusion				# acemod_set_fleet_piloted_exclusion_off = yes
+				value = 0
+			}
+			if = {
+				limit = {
+					is_disabled = no
+					is_in_combat = no
+					has_fleet_flag = sfex_fleet_flag_jumpdrive_windup
+				}
+				solar_system = {
+					save_event_target_as = sfex_event_target_solar_system_origin_jumpdrive_windup
+				}
+				play_sound = ftl_hyperlane_out_coming_ship
+				every_owned_ship = {
+					create_ambient_object = {
+						type = sfex_gfx_ambient_object_jumpdrive_effect_ftl_trail_entity
+						scale = 0.1
+						use_3d_location = yes
+						entity_face_object = this
+						entity_scale_to_size = yes
+						location = this
+						duration = 2						# does not accept variable
+					}
+					create_ambient_object = {
+						type = sfex_gfx_ambient_object_jumpdrive_effect
+						use_3d_location = yes
+						entity_face_object = this
+						entity_scale_to_size = yes
+						location = this
+						duration = 2						# does not accept variable
+					}
+				}
+				fleet_event = {
+					id = sfex_jumpdrive_order.4
+					days = 1
+				}
+			}
+		}
+		else = {
+			log = "sfex_jumpdrive_order.3: event_target:sfex_core_event_target_1 does not exist."
+		}
+	}
+}
+
+fleet_event = {
+	id = sfex_jumpdrive_order.4
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		if = {
+			limit = {
+				is_disabled = no
+				is_in_combat = no
+				has_fleet_flag = sfex_fleet_flag_jumpdrive_windup
+			}
+			event_target:sfex_event_target_solar_system_origin_jumpdrive_windup = {
+				every_system_ambient_object = {
+					limit = {
+						has_ambient_object_flag = sfex_gfx_ambient_object_flag_jumpdrive_windup
+					}
+					destroy_ambient_object = this
+				}
+			}
+			# translation from galactic_object for set_location
+			# ambient_object galactic_object planet fleet megastructure
+			event_target:sfex_core_event_target_1 = {
+				if = {
+					limit = {
+						is_scope_type = galactic_object
+					}
+					random_system_planet = {
+						prevprev = {
+							set_location = {
+								target = prev
+								distance = 0
+								angle = 0
+								direction = in_system
+							}
+						}
+					}
+				}
+				else = {
+					prev = {
+						set_location = {
+							target = event_target:sfex_core_event_target_1
+							distance = 0
+							angle = 0
+							direction = in_system
+						}
+					}
+				}
+			}
+			play_sound = ftl_hyperlane_in_coming_ship
+		}
+	}
+}

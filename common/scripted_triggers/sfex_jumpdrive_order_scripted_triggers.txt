@@ -1,0 +1,142 @@
+# can_enter_system_by_jump and can_jump_drive scripted triggers are from The Merger of Rules by Inny78 [The Merger] Mod SteamID: 2458836869
+# THIS = Fleet
+sfex_can_jump_drive_scripted_trigger = {
+	solar_system = {
+		NOR = {
+			has_star_flag = ag_no_jump_out_system
+			has_star_flag = nep_Scrus_cluster
+		}
+	}
+	NOT = {
+		solar_system = {
+			OR = {
+				has_star_flag = nep_whitegoo_1
+				has_star_flag = nep_whitegoo_2
+				has_star_flag = nep_whitegoo_3
+			}
+			prev = {
+				owner = {
+					NOT = {
+						has_technology = tech_nep_whitegoo_3_2
+					}
+				}
+			}
+		}
+	}
+	# Ancient Empire
+	# custom_tooltip = {
+	# fail_text = ag_jump_drive_unable_system_tooltip
+	# NOT = {
+	# 	solar_system = {
+	# 		has_star_flag = ag_no_jump_out_system
+	# 	}
+	# }
+	# }
+	# Some Events of Outside Cluster
+	# if = {
+	# 	limit = { 
+	# 		exists = solar_system
+	# 		solar_system = { has_star_flag = nep_Scrus_cluster } 
+	# 	}
+	# custom_tooltip = {
+	# text = "CAN_NOT_JUMP_WHEN_IN_SCRUS"
+	# 		always = no
+	# 	}
+	# }
+	# else_if = {
+	# 	limit = {
+	# 		exists = solar_system
+	# 		solar_system = {
+	# 			OR = {
+	# 				has_star_flag = nep_whitegoo_1
+	# 				has_star_flag = nep_whitegoo_2
+	# 				has_star_flag = nep_whitegoo_3
+	# 			}
+	# 		}
+	# 		owner = {
+	# 			NOT = {
+	# 				has_technology = tech_nep_whitegoo_3_2
+	# 			}
+	# 		}
+	# 	}
+	# 	custom_tooltip = {
+	# 		# text = "CAN_NOT_JUMP_IN_WHITEGOO"
+	# 		always = no
+	# 	}
+	# }
+	# else = {
+	# 	always = yes
+	# }
+}
+
+# prev.owner sfex fleet
+# Root = country attempting to target system for movement
+# This = system being targeted
+sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger = {
+	# custom_tooltip = {
+	# success_text = "debug: can jump"
+	# fail_text = cannot_jump_to_system
+	# Sealed system
+	solar_system = {
+		OR = {
+			NOT = {
+				has_star_flag = sealed_system
+			}
+			AND = {
+				prev.owner = {
+					has_country_flag = entered_sealed_system
+				}
+				has_star_flag = sealed_system
+			}
+		}
+		# Clusters
+		NOR = {
+			has_star_flag = lcluster
+			# Warship Girls R And MIST Species
+			has_star_flag = wg_sealed_system
+			has_star_flag = wg_psionic_systems
+			# Gigastructures
+			has_star_flag = ehof_compound_system
+			has_star_flag = giga_core_03
+			AND = {
+				has_global_flag = gigastructures_enabled
+				OR = {
+					cohesive_system = yes
+					urmazin_system = yes
+					everchanging_system = yes
+					katzen_jump_blocked_system = yes
+				}
+			}
+			# Ancient Empire
+			has_star_flag = ag_no_jump_in_system
+			# SW:Kuat Ancient Empire
+			has_star_flag = Kuat_system
+			has_star_flag = Kuat_system_1
+			has_star_flag = Kuat_system_2
+			has_star_flag = Kuat_system_3
+			has_star_flag = kuat_initial_system
+			has_star_flag = Kuat_system_int
+			has_star_flag = Kuat_system_int_1
+			has_star_flag = Kuat_system_int_2
+			has_star_flag = Kuat_system_int_3
+			has_star_flag = Kuat_system_int_4
+			AND = {
+				has_global_flag = starkillerbase_not_passed
+				has_star_flag = starkiller_system
+			}
+			# ACOT
+			has_star_flag = outercluster
+			# Some Events of Outside Cluster
+			has_star_flag = nep_Krahen_cluster
+			has_star_flag = nep_Scrus_cluster
+			AND = {
+				has_global_flag = nep_not_pass_Aemethms
+				OR = {
+					has_star_flag = nep_dragon_system
+					has_star_flag = nep_heptagram_cluster
+				}
+			}
+		}
+	}
+	# }
+}

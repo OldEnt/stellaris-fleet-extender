@@ -1,0 +1,181 @@
+# Set up mod installed global_flag.
+namespace = sfex_build_order
+event = {
+	id = sfex_build_order.1
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		NOT = {
+			has_global_flag = sfex_build_order_installed
+		}
+	}
+	immediate = {
+		set_global_flag = sfex_build_order_installed
+	}
+}
+
+fleet_event = {
+	id = sfex_build_order.2
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		if = {
+			limit = {
+				exists = event_target:sfex_core_event_target_1
+			}
+			if = {
+				limit = {
+					is_scope_type = fleet
+					OR = {
+						is_ship_class = shipclass_constructor
+						has_fleet_flag = sfex_fleet_flag_shipclass_constructor
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								event_target:sfex_core_event_target_1 = {
+									is_scope_type = galactic_object
+									is_same_value = prev.solar_system
+								}
+							}
+							event_target:sfex_core_event_target_1 = {
+								is_scope_type = planet
+								solar_system = {
+									is_same_value = prev.solar_system
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:sfex_event_target_build_order_structure
+						}
+						if = {
+							limit = {
+								OR = {
+									event_target:sfex_core_event_target_1 = {
+										is_scope_type = planet
+									}
+									AND = {
+										event_target:sfex_core_event_target_1 = {
+											is_scope_type = galactic_object
+										}
+										event_target:sfex_event_target_build_order_structure = {
+											has_leader_flag = sfex_starbase
+										}
+									}
+								}
+							}
+							if = {
+								limit = {
+									has_global_flag = sfex_verbose_logging_enabled
+								}
+								log = "sfex_build_order.2: OK: \\[this.GetName] will attempt to build \\[event_target:sfex_event_target_build_order_structure.GetName] on \\[sfex_core_event_target_1.GetName]."
+							}
+							if = {
+								limit = {
+									event_target:sfex_core_event_target_1 = {
+										is_scope_type = galactic_object										# Build starbase.
+									}
+									event_target:sfex_event_target_build_order_structure = {
+										has_leader_flag = sfex_starbase
+									}
+								}
+								if = {
+									limit = {
+										event_target:sfex_core_event_target_1 = {
+											any_system_planet = {
+												is_primary_star = yes
+											}
+										}
+									}
+									if = {
+										limit = {
+											event_target:sfex_core_event_target_1 = {
+												NOT = {
+													exists = owner
+												}
+											}
+										}
+										sfex_build_order_structures_starbase = yes										# Build starbase.
+									}
+									else = {
+										log = "sfex_build_order.2: owner of event_target:sfex_core_event_target_1 (solar_system) must not exist. Unable to construct starbase."
+									}
+								}
+								else = {
+									log = "sfex_build_order.2: event_target:sfex_core_event_target_1 does not contain planet which is_primary_star, unable to build starbase."
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										event_target:sfex_core_event_target_1 = {
+											is_scope_type = planet											# Build station or starbase.
+										}
+									}
+									if = {
+										limit = {
+											event_target:sfex_event_target_build_order_structure = {
+												has_leader_flag = sfex_starbase												# Build starbase.
+											}
+										}
+										if = {
+											limit = {
+												event_target:sfex_core_event_target_1.solar_system = {
+													NOT = {
+														exists = owner
+													}
+												}
+											}
+											sfex_build_order_structures_starbase = yes
+										}
+										else = {
+											log = "sfex_build_order.2: owner of event_target:sfex_core_event_target_1.solar_system must not exist. Unable to construct starbase."
+										}
+									}
+									else = {
+										if = {
+											limit = {
+												event_target:sfex_core_event_target_1.solar_system = {
+													exists = owner
+													owner = {
+														is_same_value = prevprevprev.owner
+													}
+												}
+											}
+											sfex_build_order_structures_station = yes											# Build station.
+										}
+										else = {
+											log = "sfex_build_order.2: owner of constructor and planet must be the same. Unable to construct station."
+										}
+									}
+								}
+								else = {
+									log = "sfex_build_order.2: event_target:sfex_core_event_target_1 must be a planet."
+								}
+							}
+						}
+						else = {
+							log = "sfex_build_order.2: event_target:sfex_core_event_target_1 must be a planet OR event_target:sfex_core_event_target_1 must be a galactic_object and event_target:sfex_event_target_build_order_structure must store valid structure type (outpost)."
+						}
+					}
+					else = {
+						log = "sfex_build_order.2: event_target:sfex_event_target_build_order_structure is not set (structure type storage)."
+					}
+				}
+				else = {
+					log = "sfex_build_order.2: Constructor must be in the same system as event_target:sfex_core_event_target_1 (location)."
+				}
+			}
+			else = {
+				log = "sfex_build_order.2: object must be fleet scope and shipclass_constructor or have sfex_fleet_flag_shipclass_constructor."
+			}
+		}
+		else = {
+			log = "sfex_build_order.2: event_target:sfex_core_event_target_1 is not set (location)."
+		}
+	}
+}

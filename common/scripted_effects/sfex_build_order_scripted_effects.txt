@@ -1,0 +1,357 @@
+sfex_build_order_structures_starbase = {
+	if = {
+		limit = {
+			solar_system = {
+				is_surveyed = {
+					who = prev.owner
+					status = no
+				}
+			}
+			any_playable_country = {
+				is_same_value = prev.owner				# prev = fleet
+				NOT = {
+					has_country_flag = sfex_build_order_country_flag_ignore_is_surveyed
+				}
+			}
+		}
+		log = "sfex_custom_on_action_build_order: (fleet) solar_system is not surveyed by (fleet) owner. Continuing anyway."
+	}
+	event_target:sfex_core_event_target_1 = {
+		if = {
+			limit = {
+				is_scope_type = galactic_object
+			}
+			random_system_planet = {
+				limit = {
+					is_primary_star = yes
+				}
+				save_event_target_as = sfex_build_order_event_target_starbase_target
+			}
+		}
+		else_if = {
+			limit = {
+				is_scope_type = planet
+			}
+			save_event_target_as = sfex_build_order_event_target_starbase_target
+		}
+		else = {
+			log = "sfex_custom_on_action_build_order: event_target:sfex_core_event_target_1 is neither galactic_object nor planet. Unable to build starbase."
+		}
+	}
+	queue_actions = {
+		move_to = event_target:sfex_build_order_event_target_starbase_target
+		orbit_planet = event_target:sfex_build_order_event_target_starbase_target
+		wait = 5
+		effect = {
+			id = sfex_build_order_structures_starbase.e1
+			if = {
+				limit = {
+					NOT = {
+						has_global_flag = sfex_gfx_disabled
+					}
+				}
+				random_owned_ship = {
+					create_ambient_object = {
+						type = sfex_gfx_ambient_object_build_order_construction
+						scale = 0.1
+						use_3d_location = yes
+						entity_face_object = this
+						entity_scale_to_size = yes
+						location = this
+						duration = 90						# does not accept variable
+					}
+					last_created_ambient_object = {
+						set_ambient_object_flag = sfex_build_order_ambient_object_flag_construction
+					}
+				}
+			}
+		}
+		wait = 90		# Does not accept variable?
+		effect = {
+			id = sfex_build_order_structures_starbase.e2
+			sfex_build_order_structures_starbase_spawn = yes
+		}
+	}
+}
+
+sfex_build_order_structures_starbase_spawn = {
+	# Vanilla empire types are listed below.
+	if = {
+		limit = {
+			is_in_combat = no
+			NOT = {
+				has_fleet_order = evade_hostiles_order
+			}
+			owner = {
+				NOR = {
+					has_country_flag = acemod_country_flag_custom_starbase_outpost
+					has_country_flag = acemod_country_flag_custom_starbase_citadel
+				}
+			}
+		}
+		# Including default and rebel for future-proofing.
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						is_country_type = default
+						is_country_type = rebel
+					}
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_outpost
+					owner = prev.owner
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					is_country_type = ai_empire
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_ai
+					owner = prev.owner
+				}
+				random_fleet_in_system = {
+					limit = {
+						is_ship_size = starbase_ai
+					}
+					random_owned_ship = {
+						limit = {
+							is_ship_size = starbase_ai
+						}
+						ship_event = {
+							id = crisis.2600							# Spawn System Effect
+						}
+					}
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						is_country_type = extradimensional
+						is_country_type = extradimensional_2
+						is_country_type = extradimensional_3
+					}
+				}
+			}
+			random_list = {
+				75 = {
+					solar_system = {
+						if = {
+							limit = {
+								NOT = {
+									exists = owner									# Failsafe in case two constructors try to spawn and add count at the same time.
+								}
+							}
+							create_starbase = {
+								size = starbase_exd_0
+								owner = prev.owner
+							}
+							random_fleet_in_system = {
+								limit = {
+									is_ship_size = starbase_exd_0
+								}
+								random_owned_ship = {
+									limit = {
+										is_ship_size = starbase_exd_0
+									}
+									ship_event = {
+										id = crisis.1310										# Spawn System Effect
+									}
+								}
+							}
+						}
+					}
+				}
+				25 = {
+					solar_system = {
+						if = {
+							limit = {
+								NOT = {
+									exists = owner									# Failsafe in case two constructors try to spawn and add count at the same time.
+								}
+							}
+							create_starbase = {
+								size = starbase_exd
+								owner = prev.owner
+							}
+							# Make sure anchors are accounted for and affect invincibility of portal for each Unbidden faction.
+							random_fleet_in_system = {
+								limit = {
+									is_ship_size = starbase_exd
+								}
+								random_owned_ship = {
+									limit = {
+										is_ship_size = starbase_exd
+									}
+									ship_event = {
+										id = crisis.1267										# Reinforcements Arrive After Building Anchor (HIDDEN)
+									}
+									ship_event = {
+										id = crisis.1280										# Anchor Built (HIDDEN)
+									}
+									ship_event = {
+										id = crisis.1310										# Spawn System Effect
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					is_country_type = swarm
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_swarm
+					owner = prev.owner
+				}
+				random_fleet_in_system = {
+					limit = {
+						is_ship_size = starbase_swarm
+					}
+					random_owned_ship = {
+						limit = {
+							is_ship_size = starbase_swarm
+						}
+						ship_event = {
+							id = crisis.260							# Spawn System Effect
+						}
+					}
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						is_country_type = awakened_marauders
+						is_country_type = dormant_marauders
+						is_country_type = pirate
+						is_country_type = ruined_marauders
+					}
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_marauder
+					owner = prev.owner
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						is_country_type = fallen_empire
+						is_country_type = awakened_fallen_empire
+					}
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_fe_outpost
+					owner = prev.owner
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						is_country_type = gate_builders
+						is_country_type = gray
+						is_country_type = gray_goo
+					}
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_gatebuilders
+					owner = prev.owner
+				}
+			}
+			break = yes
+		}
+		else = {
+			break = yes
+		}
+	}
+	# Below for non-vanilla use. Apply one of custom_starbase country flags if you are using custom country type or empire. Untested, please report any bugs.
+	else_if = {
+		limit = {
+			is_in_combat = no
+			NOT = {
+				has_fleet_order = evade_hostiles_order
+			}
+			owner = {
+				OR = {
+					has_country_flag = acemod_country_flag_custom_starbase_outpost
+					has_country_flag = acemod_country_flag_custom_starbase_citadel
+				}
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					has_country_flag = acemod_country_flag_custom_starbase_outpost
+					NOT = {
+						has_country_flag = acemod_country_flag_custom_starbase_citadel
+					}
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_outpost
+					owner = prev.owner
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				owner = {
+					has_country_flag = acemod_country_flag_custom_starbase_citadel
+					NOT = {
+						has_country_flag = acemod_country_flag_custom_starbase_outpost
+					}
+				}
+			}
+			solar_system = {
+				create_starbase = {
+					size = starbase_citadel
+					owner = prev.owner
+				}
+			}
+			break = yes
+		}
+		else = {
+			break = yes
+		}
+	}
+	else = {
+		break = yes
+	}
+}
+
+sfex_build_order_structures_station = {
+}

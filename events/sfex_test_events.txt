@@ -1,0 +1,53 @@
+namespace = sfex_test
+# sfex_set_fleet_order jumpdrive
+fleet_event = {
+	id = sfex_test.200
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		random_galaxy_planet = {
+			limit = {
+				solar_system = {
+					NOT = {
+						exists = owner
+					}
+				}
+			}
+			root = {
+				sfex_set_fleet_order = {
+					ORDER = jumpdrive					# jumpdrive, build
+					MODNAME = sfex_core_debug					# TO DO! (optional) unique mod prefix which executes this effect (or other custom string). Useful for debugging.
+					TARGET = prev					# jumpdrive: galactic_object build: planet, galactic_object (starbase)
+					JUMPDRIVE_CUSTOM_MAX_RANGE = 150					# (optional) float, default: @sfex_fleet_order_var_jumpdrive_custom_max_range = 100 (fleet > country > global_event_country)
+					JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = no					# (optional) bool, default: no. see game_rules
+					# STRUCTURE = starbase			#TO DO (accepts starbase only)! starbase research_station mining_station observation_outpost megastructure (ie. spy_orb_0)
+				}
+			}
+		}
+	}
+}
+
+# sfex_set_fleet_order build
+fleet_event = {
+	id = sfex_test.300
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		solar_system = {
+			random_system_planet = {
+				limit = {
+					is_star = yes
+				}
+				save_event_target_as = sfex_build_target_debug
+			}
+		}
+		sfex_set_fleet_order = {
+			ORDER = build			# jumpdrive, build
+			MODNAME = sfex_core_debug			# TO DO! (optional) unique mod prefix which executes this effect (or other custom string). Useful for debugging.
+			TARGET = sfex_build_target_debug			# jumpdrive: galactic_object build: planet, galactic_object (starbase)
+			# JUMPDRIVE_CUSTOM_MAX_RANGE = 150			# (optional) float, default: @sfex_fleet_order_var_jumpdrive_custom_max_range = 100 (fleet > country > global_event_country)
+			# JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = yes			# (optional) bool, default: no. see game_rules
+			STRUCTURE = starbase			# TO DO (accepts starbase only)! starbase research_station mining_station observation_outpost megastructure (ie. spy_orb_0)
+		}
+	}
+}
