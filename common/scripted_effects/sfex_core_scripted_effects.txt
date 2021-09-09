@@ -118,6 +118,7 @@ sfex_set_fleet_order = {
 		}
 	}
 	# grab TARGET scope
+	# sfex_core_grab_target_1_scope_legacy_scripted_effect = yes
 	[[TARGET]
 	set_fleet_flag = sfex_$TARGET$
 	]
@@ -127,143 +128,22 @@ sfex_set_fleet_order = {
 		}
 		if = {
 			limit = {
-				exists = event_target:$TARGET$
+				is_scope_set = $TARGET$
+			}
+			$TARGET$ = {
+				save_event_target_as = sfex_core_event_target_1
+			}
+		}
+		else_if = {
+			limit = {
+				is_scope_set = event_target:$TARGET$
 			}
 			event_target:$TARGET$ = {
 				save_event_target_as = sfex_core_event_target_1
 			}
 		}
 		else = {
-			switch = {
-				trigger = has_fleet_flag
-				# sfex_this = {}
-				sfex_root = {
-					if = {
-						limit = {
-							exists = root
-						}
-						root = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: root is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_prev = {
-					if = {
-						limit = {
-							exists = prev
-						}
-						prev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_prevprev = {
-					if = {
-						limit = {
-							exists = prevprev
-						}
-						prevprev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prevprev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_prevprevprev = {
-					if = {
-						limit = {
-							exists = prevprevprev
-						}
-						prevprevprev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prevprevprev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_prevprevprevprev = {
-					if = {
-						limit = {
-							exists = prevprevprevprev
-						}
-						prevprevprevprev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prevprevprevprev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_from = {
-					if = {
-						limit = {
-							exists = from
-						}
-						from = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: from is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_fromfrom = {
-					if = {
-						limit = {
-							exists = fromfrom
-						}
-						fromfrom = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: fromfrom is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_fromfromfrom = {
-					if = {
-						limit = {
-							exists = fromfromfrom
-						}
-						fromfromfrom = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: fromfromfrom is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_fromfromfromfrom = {
-					if = {
-						limit = {
-							exists = fromfromfromfrom
-						}
-						fromfromfromfrom = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: fromfromfromfrom is valid scope operator but scope does not exist."
-					}
-				}
-				# sfex_owner = {}
-				# sfex_controller = {}
-				# sfex_capital = {}
-				# sfex_solar_system = {}
-				# sfex_leader = {}
-				# sfex_random = {}
-				default = {
-					log = "sfex_set_fleet_order: Unsupported scope operator. event_targets must be referenced by name only. TARGET = event_target root prev prevprev prevprevprev prevprevprevprev from fromfrom fromfromfrom fromfromfromfrom."
-				}
-			}
+			log = "sfex_set_fleet_order: Unsupported scope operator or scope does not exist. event_targets must be referenced by name only."
 		}
 	}
 	# Print scopes for debug.
@@ -650,6 +530,158 @@ sfex_set_fleet_order = {
 			default = {
 				event_target:sfex_event_target_mod_name_register = {
 					log = "sfex_set_fleet_order: ORDER must be: jumpdrive build."
+				}
+			}
+		}
+	}
+}
+
+sfex_core_grab_target_1_scope_legacy_scripted_effect = {
+	# grab TARGET scope
+	[[TARGET]
+	set_fleet_flag = sfex_$TARGET$
+	]
+	if = {
+		limit = {
+			has_fleet_flag = sfex_$TARGET$
+		}
+		if = {
+			limit = {
+				exists = event_target:$TARGET$
+			}
+			event_target:$TARGET$ = {
+				save_event_target_as = sfex_core_event_target_1
+			}
+		}
+		else = {
+			switch = {
+				trigger = has_fleet_flag
+				# sfex_this = {}
+				sfex_root = {
+					if = {
+						limit = {
+							exists = root
+						}
+						root = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: root is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_prev = {
+					if = {
+						limit = {
+							exists = prev
+						}
+						prev = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: prev is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_prevprev = {
+					if = {
+						limit = {
+							exists = prevprev
+						}
+						prevprev = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: prevprev is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_prevprevprev = {
+					if = {
+						limit = {
+							exists = prevprevprev
+						}
+						prevprevprev = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: prevprevprev is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_prevprevprevprev = {
+					if = {
+						limit = {
+							exists = prevprevprevprev
+						}
+						prevprevprevprev = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: prevprevprevprev is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_from = {
+					if = {
+						limit = {
+							exists = from
+						}
+						from = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: from is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_fromfrom = {
+					if = {
+						limit = {
+							exists = fromfrom
+						}
+						fromfrom = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: fromfrom is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_fromfromfrom = {
+					if = {
+						limit = {
+							exists = fromfromfrom
+						}
+						fromfromfrom = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: fromfromfrom is valid scope operator but scope does not exist."
+					}
+				}
+				sfex_fromfromfromfrom = {
+					if = {
+						limit = {
+							exists = fromfromfromfrom
+						}
+						fromfromfromfrom = {
+							save_event_target_as = sfex_core_event_target_1
+						}
+					}
+					else = {
+						log = "sfex_set_fleet_order: fromfromfromfrom is valid scope operator but scope does not exist."
+					}
+				}
+				# sfex_owner = {}
+				# sfex_controller = {}
+				# sfex_capital = {}
+				# sfex_solar_system = {}
+				# sfex_leader = {}
+				# sfex_random = {}
+				default = {
+					log = "sfex_set_fleet_order: Unsupported scope operator. event_targets must be referenced by name only. TARGET = event_target root prev prevprev prevprevprev prevprevprevprev from fromfrom fromfromfrom fromfromfromfrom."
 				}
 			}
 		}
