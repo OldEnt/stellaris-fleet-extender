@@ -553,7 +553,7 @@ sfex_set_fleet_order = {
 					event_target:sfex_core_global_country = {
 						random_owned_leader = {
 							limit = {
-								has_leader_flag = sfex_$STRUCTURE$
+								has_leader_flag = sfex_$BUILD_STRUCTURE$
 							}
 							save_event_target_as = sfex_event_target_build_order_structure
 						}
@@ -565,12 +565,12 @@ sfex_set_fleet_order = {
 							}
 							create_leader = {
 								class = general
-								name = "$STRUCTURE$"
+								name = "$BUILD_STRUCTURE$"
 								species = event_target:sfex_core_global_species
 								immortal = yes
 							}
 							last_created_leader = {
-								set_leader_flag = sfex_$STRUCTURE$
+								set_leader_flag = sfex_$BUILD_STRUCTURE$
 								save_event_target_as = sfex_event_target_build_order_structure
 							}
 						}
