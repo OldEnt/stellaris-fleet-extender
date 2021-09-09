@@ -1,6 +1,6 @@
 # can_enter_system_by_jump and can_jump_drive scripted triggers are from The Merger of Rules by Inny78 [The Merger] Mod SteamID: 2458836869
 # THIS = Fleet
-sfex_can_jump_drive_scripted_trigger = {
+sfex_jumpdrive_order_can_jump_drive_scripted_trigger = {
 	solar_system = {
 		NOR = {
 			has_star_flag = ag_no_jump_out_system

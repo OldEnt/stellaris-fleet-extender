@@ -269,7 +269,7 @@ sfex_set_fleet_order = {
 	# Print scopes for debug.
 	if = {
 		limit = {
-			has_global_flag = sfex_verbose_logging_enabled
+			has_global_flag = sfex_verbose_logging_scopes_enabled
 		}
 		root = {
 			log = "0. root = \\[this.GetName]"
@@ -466,6 +466,12 @@ sfex_set_fleet_order = {
 							value = sfex_fleet_order_var_jumpdrive_custom_max_range							# Vanilla default
 						}
 					}
+					[[JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE]
+					set_timed_fleet_flag = {
+						flag = sfex_jumpdrive_order_fleet_flag_ignore_can_jump_drive_$JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE$
+						days = 16
+					}
+					]
 					[[JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP]
 					set_timed_fleet_flag = {
 						flag = sfex_jumpdrive_order_fleet_flag_ignore_can_enter_system_by_jump_$JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP$
@@ -492,22 +498,83 @@ sfex_set_fleet_order = {
 							}
 							log = "sfex_set_fleet_order: JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP not set. Using default value."
 						}
+						if = {
+							limit = {
+								NOT = {
+									has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_jump_drive_$JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE$
+								}
+							}
+							log = "sfex_set_fleet_order: JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE not set. Using default value."
+						}
 					}
+					# Summary of else below. Do not uncomment.
+					# if = {
+					# 	limit = {
+					# 		has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_jump_drive_yes
+					# 		has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_enter_system_by_jump_yes
+					# 	}
+					# 	fleet_event = {
+					# 		id = sfex_jumpdrive_order.2							# jumpdrive_windup
+					# 	}
+					# }
 					if = {
 						limit = {
 							NOT = {
-								has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_enter_system_by_jump_yes
+								has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_jump_drive_yes
 							}
 						}
 						if = {
 							limit = {
-								sfex_can_jump_drive_scripted_trigger = yes
+								sfex_jumpdrive_order_can_jump_drive_scripted_trigger = yes
 							}
 							if = {
 								limit = {
 									has_global_flag = sfex_verbose_logging_enabled
 								}
 								log = "sfex_can_jump_drive_scripted_trigger returned true."
+							}
+							if = {
+								limit = {
+									NOT = {
+										has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_enter_system_by_jump_yes
+									}
+								}
+								if = {
+									limit = {
+										event_target:sfex_core_event_target_1 = {
+											sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger = yes
+										}
+									}
+									if = {
+										limit = {
+											has_global_flag = sfex_verbose_logging_enabled
+										}
+										log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned true."
+									}
+									fleet_event = {
+										id = sfex_jumpdrive_order.2										# jumpdrive_windup
+									}
+								}
+								else = {
+									log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned false."
+								}
+							}
+							else = {
+								fleet_event = {
+									id = sfex_jumpdrive_order.2									# jumpdrive_windup
+								}
+							}
+						}
+						else = {
+							log = "sfex_jumpdrive_order_can_jump_drive_scripted_trigger returned false."
+						}
+					}
+					else = {
+						if = {
+							limit = {
+								NOT = {
+									has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_enter_system_by_jump_yes
+								}
 							}
 							if = {
 								limit = {
@@ -530,12 +597,9 @@ sfex_set_fleet_order = {
 							}
 						}
 						else = {
-							log = "sfex_can_jump_drive_scripted_trigger returned false."
-						}
-					}
-					else = {
-						fleet_event = {
-							id = sfex_jumpdrive_order.2							# jumpdrive_windup
+							fleet_event = {
+								id = sfex_jumpdrive_order.2								# jumpdrive_windup
+							}
 						}
 					}
 				}
