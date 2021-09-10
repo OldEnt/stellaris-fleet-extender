@@ -36,7 +36,7 @@ fleet_event = {
 							AND = {
 								is_scope_type = planet
 								NOT = {
-									prev = {
+									solar_system = {
 										exists = owner
 									}
 								}
@@ -120,83 +120,18 @@ fleet_event = {
 																days = 1
 															}
 														}
-														log = "sfex_survey_order.2.e1: is_scope_type = planet"
+														if = {
+															limit = {
+																has_global_flag = sfex_verbose_logging_scopes_enabled
+															}
+															log = "sfex_survey_order.2.e1: is_scope_type = planet"
+														}
 														set_surveyed = {
 															surveyed = yes
 															surveyor = prev.owner
 														}
 														prev = {
 															random_owned_ship = {
-																root = {
-																	log = "0. root = \\[this.GetName]"
-																}
-																this = {
-																	log = "1. this = \\[this.GetName]"
-																}
-																if = {
-																	limit = {
-																		exists = prev
-																	}
-																	prev = {
-																		log = "2. prev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = prevprev
-																	}
-																	prevprev = {
-																		log = "3. prevprev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = prevprevprev
-																	}
-																	prevprevprev = {
-																		log = "4. prevprevprev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = prevprevprevprev
-																	}
-																	prevprevprevprev = {
-																		log = "5. prevprevprevprev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = from
-																	}
-																	from = {
-																		log = "6. from = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = fromfrom
-																	}
-																	fromfrom = {
-																		log = "7. fromfrom = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = fromfromfrom
-																	}
-																	fromfromfrom = {
-																		log = "8. fromfromfrom = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = fromfromfromfrom
-																	}
-																	fromfromfromfrom = {
-																		log = "9. fromfromfromfrom = \\[this.GetName]"
-																	}
-																}
 																fire_on_action = {
 																	on_action = on_survey
 																	scopes = {
@@ -249,83 +184,18 @@ fleet_event = {
 																days = 1
 															}
 														}
-														log = "sfex_survey_order.2.e2: is_scope_type = galactic_object"
+														if = {
+															limit = {
+																has_global_flag = sfex_verbose_logging_scopes_enabled
+															}
+															log = "sfex_survey_order.2.e2: is_scope_type = galactic_object"
+														}
 														set_surveyed = {
 															surveyed = yes
 															surveyor = prev.owner
 														}
 														prev = {
 															random_owned_ship = {
-																root = {
-																	log = "0. root = \\[this.GetName]"
-																}
-																this = {
-																	log = "1. this = \\[this.GetName]"
-																}
-																if = {
-																	limit = {
-																		exists = prev
-																	}
-																	prev = {
-																		log = "2. prev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = prevprev
-																	}
-																	prevprev = {
-																		log = "3. prevprev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = prevprevprev
-																	}
-																	prevprevprev = {
-																		log = "4. prevprevprev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = prevprevprevprev
-																	}
-																	prevprevprevprev = {
-																		log = "5. prevprevprevprev = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = from
-																	}
-																	from = {
-																		log = "6. from = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = fromfrom
-																	}
-																	fromfrom = {
-																		log = "7. fromfrom = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = fromfromfrom
-																	}
-																	fromfromfrom = {
-																		log = "8. fromfromfrom = \\[this.GetName]"
-																	}
-																}
-																if = {
-																	limit = {
-																		exists = fromfromfromfrom
-																	}
-																	fromfromfromfrom = {
-																		log = "9. fromfromfromfrom = \\[this.GetName]"
-																	}
-																}
 																fire_on_action = {
 																	on_action = on_survey
 																	scopes = {

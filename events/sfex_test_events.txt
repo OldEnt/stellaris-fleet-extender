@@ -71,3 +71,27 @@ fleet_event = {
 		}
 	}
 }
+
+# sfex_set_fleet_order survey
+fleet_event = {
+	id = sfex_test.401
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		solar_system = {
+			random_system_planet = {
+				limit = {
+					is_surveyed = {
+						who = prevprev.owner
+						status = no
+					}
+				}
+				prevprev = {
+					sfex_set_fleet_order_survey = {
+						TARGET = prev
+					}
+				}
+			}
+		}
+	}
+}

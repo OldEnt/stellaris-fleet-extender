@@ -21,6 +21,18 @@ sfex_core_create_global_country_if_needed = {
 				save_global_event_target_as = sfex_core_global_country
 			}
 		}
+		last_created_country = {
+			create_leader = {
+				class = general
+				name = name_register
+				species = event_target:sfex_core_global_species
+				immortal = yes
+			}
+			last_created_leader = {
+				set_leader_flag = name_register
+				save_global_event_target_as = sfex_event_target_mod_name_register
+			}
+		}
 	}
 }
 
@@ -72,7 +84,7 @@ sfex_set_fleet_order = {
 	[[ORDER]
 	set_timed_fleet_flag = {
 		flag = sfex_fleet_flag_$ORDER$_order
-		days = 16
+		days = 1
 	}
 	]
 	[[MODNAME]
@@ -121,7 +133,12 @@ sfex_set_fleet_order = {
 	# sfex_core_grab_target_1_scope_legacy_scripted_effect = yes
 	[[TARGET]
 	set_fleet_flag = sfex_$TARGET$
+	set_timed_fleet_flag = {
+		flag = sfex_TARGET_exists
+		days = 1
+	}
 	]
+	[[TARGET]
 	if = {
 		limit = {
 			has_fleet_flag = sfex_$TARGET$
@@ -144,6 +161,62 @@ sfex_set_fleet_order = {
 		}
 		else = {
 			log = "sfex_set_fleet_order: Unsupported scope operator or scope does not exist. event_targets must be referenced by name only."
+		}
+	}
+	]
+	if = {
+		limit = {
+			NOT = {
+				has_fleet_flag = sfex_TARGET_exists
+			}
+			has_fleet_flag = sfex_fleet_flag_build_order			# Subroutine to allow issue build starbase order without specifying TARGET.
+		}
+		sfex_core_create_global_country_if_needed = yes
+		event_target:sfex_core_global_country = {
+			random_owned_leader = {
+				limit = {
+					has_leader_flag = sfex_$BUILD_STRUCTURE$
+				}
+				save_event_target_as = sfex_event_target_build_order_structure
+			}
+			if = {
+				limit = {
+					exists = event_target:sfex_event_target_build_order_structure
+				}
+				event_target:sfex_event_target_build_order_structure = {
+					set_leader_flag = sfex_$BUILD_STRUCTURE$
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						exists = event_target:sfex_event_target_build_order_structure
+					}
+				}
+				create_leader = {
+					class = general
+					name = "$BUILD_STRUCTURE$"
+					species = event_target:sfex_core_global_species
+					immortal = yes
+				}
+				last_created_leader = {
+					set_leader_flag = sfex_$BUILD_STRUCTURE$
+					save_event_target_as = sfex_event_target_build_order_structure
+				}
+			}
+			if = {
+				limit = {
+					event_target:sfex_event_target_build_order_structure = {
+						has_leader_flag = sfex_starbase
+					}
+				}
+				prev.solar_system = {
+					save_event_target_as = sfex_core_event_target_1
+				}
+			}
+			else = {
+				log = "sfex_set_fleet_order: only build starbase ORDER does not require TARGET."
+			}
 		}
 	}
 	# Print scopes for debug.
@@ -272,6 +345,8 @@ sfex_set_fleet_order = {
 						trigger = is_scope_type
 						planet = {
 						}
+						galactic_object = {
+						}
 						default = {
 							prev = {
 								set_timed_fleet_flag = {
@@ -279,7 +354,7 @@ sfex_set_fleet_order = {
 									days = 1
 								}
 							}
-							log = "ORDER build: invalid scope type. Must be planet."
+							log = "ORDER build: invalid scope type. Must be planet or galactic_object (for starbase)."
 						}
 					}
 				}
@@ -571,9 +646,7 @@ sfex_set_fleet_order = {
 				}
 			}
 			default = {
-				event_target:sfex_event_target_mod_name_register = {
-					log = "sfex_set_fleet_order: ORDER must be: jumpdrive build survey."
-				}
+				log = "sfex_set_fleet_order: ORDER must be: jumpdrive build survey."
 			}
 		}
 	}
@@ -728,5 +801,53 @@ sfex_core_grab_target_1_scope_legacy_scripted_effect = {
 				}
 			}
 		}
+	}
+}
+
+sfex_set_fleet_order_jumpdrive = {
+	sfex_set_fleet_order = {
+		ORDER = jumpdrive
+		[[MODNAME]
+		MODNAME = $MODNAME$
+		]
+		[[TARGET]
+		TARGET = $TARGET$
+		]
+		[[JUMPDRIVE_CUSTOM_MAX_RANGE]
+		JUMPDRIVE_CUSTOM_MAX_RANGE = $JUMPDRIVE_CUSTOM_MAX_RANGE$
+		]
+		[[JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE]
+		JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = $JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE$
+		]
+		[[JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP]
+		JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = $JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP$
+		]
+	}
+}
+
+sfex_set_fleet_order_build = {
+	sfex_set_fleet_order = {
+		ORDER = build
+		[[MODNAME]
+		MODNAME = $MODNAME$
+		]
+		[[TARGET]
+		TARGET = $TARGET$
+		]
+		[[BUILD_STRUCTURE]
+		BUILD_STRUCTURE = $BUILD_STRUCTURE$
+		]
+	}
+}
+
+sfex_set_fleet_order_survey = {
+	sfex_set_fleet_order = {
+		ORDER = survey
+		[[MODNAME]
+		MODNAME = $MODNAME$
+		]
+		[[TARGET]
+		TARGET = $TARGET$
+		]
 	}
 }
