@@ -1,0 +1,374 @@
+# Set up mod installed global_flag.
+namespace = sfex_survey_order
+event = {
+	id = sfex_survey_order.1
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		NOT = {
+			has_global_flag = sfex_survey_order_installed
+		}
+	}
+	immediate = {
+		set_global_flag = sfex_survey_order_installed
+	}
+}
+
+fleet_event = {
+	id = sfex_survey_order.2
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		if = {
+			limit = {
+				exists = event_target:sfex_core_event_target_1
+			}
+			if = {
+				limit = {
+					event_target:sfex_core_event_target_1 = {
+						OR = {
+							AND = {
+								is_scope_type = galactic_object
+								NOT = {
+									exists = owner
+								}
+							}
+							AND = {
+								is_scope_type = planet
+								NOT = {
+									prev = {
+										exists = owner
+									}
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						event_target:sfex_core_event_target_1 = {
+							OR = {
+								AND = {
+									is_scope_type = galactic_object
+									any_system_planet = {
+										is_surveyed = {
+											who = prevprevprev.owner
+											status = no
+										}
+									}
+								}
+								AND = {
+									is_scope_type = planet
+									is_surveyed = {
+										who = prevprevprev.owner
+										status = no
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							is_scope_type = fleet
+							OR = {
+								is_ship_class = shipclass_science_ship
+								has_fleet_flag = sfex_fleet_flag_shipclass_science_ship
+							}
+						}
+						if = {
+							limit = {
+								OR = {
+									AND = {
+										event_target:sfex_core_event_target_1 = {
+											is_scope_type = galactic_object
+											is_same_value = prev.solar_system
+										}
+									}
+									event_target:sfex_core_event_target_1 = {
+										is_scope_type = planet
+										solar_system = {
+											is_same_value = prev.solar_system
+										}
+									}
+								}
+							}
+							event_target:sfex_core_event_target_1 = {
+								if = {
+									limit = {
+										is_scope_type = planet
+									}
+									prev = {
+										queue_actions = {
+											find_closest_planet = {
+												trigger = {
+													id = sfex_survey_order.2.t1
+													is_same_value = event_target:sfex_core_event_target_1
+												}
+												found_planet = {
+													move_to = this
+													wait = 5
+													orbit_planet = this
+													effect = {
+														id = sfex_survey_order.2.e1
+														set_timed_planet_flag = {
+															flag = sfex_planet_flag_survey_completed@prev
+															days = 1
+														}
+														prev = {
+															set_timed_fleet_flag = {
+																flag = sfex_fleet_flag_survey_completed@prev
+																days = 1
+															}
+														}
+														log = "sfex_survey_order.2.e1: is_scope_type = planet"
+														set_surveyed = {
+															surveyed = yes
+															surveyor = prev.owner
+														}
+														prev = {
+															random_owned_ship = {
+																root = {
+																	log = "0. root = \\[this.GetName]"
+																}
+																this = {
+																	log = "1. this = \\[this.GetName]"
+																}
+																if = {
+																	limit = {
+																		exists = prev
+																	}
+																	prev = {
+																		log = "2. prev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = prevprev
+																	}
+																	prevprev = {
+																		log = "3. prevprev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = prevprevprev
+																	}
+																	prevprevprev = {
+																		log = "4. prevprevprev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = prevprevprevprev
+																	}
+																	prevprevprevprev = {
+																		log = "5. prevprevprevprev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = from
+																	}
+																	from = {
+																		log = "6. from = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = fromfrom
+																	}
+																	fromfrom = {
+																		log = "7. fromfrom = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = fromfromfrom
+																	}
+																	fromfromfrom = {
+																		log = "8. fromfromfrom = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = fromfromfromfrom
+																	}
+																	fromfromfromfrom = {
+																		log = "9. fromfromfromfrom = \\[this.GetName]"
+																	}
+																}
+																fire_on_action = {
+																	on_action = on_survey
+																	scopes = {
+																		from = prevprev
+																	}
+																}
+															}
+														}
+													}
+												}
+												failed = {
+													effect = {
+														id = sfex_survey_order.2.l3
+														log = "sfex_survey_order.2.e3: No planet to survey found."
+													}
+												}
+											}
+										}
+									}
+								}
+								else_if = {
+									limit = {
+										is_scope_type = galactic_object
+									}
+									prev = {
+										queue_actions = {
+											find_closest_planet = {
+												trigger = {
+													id = sfex_survey_order.2.t2
+													solar_system = {
+														is_same_value = prev.solar_system														# check if needed
+													}
+													is_surveyed = {
+														who = prev.owner
+														status = no
+													}
+												}
+												found_planet = {
+													move_to = this
+													wait = 5
+													effect = {
+														id = sfex_survey_order.2.e2
+														set_timed_planet_flag = {
+															flag = sfex_planet_flag_survey_completed@prev
+															days = 1
+														}
+														prev = {
+															set_timed_fleet_flag = {
+																flag = sfex_fleet_flag_survey_completed@prev
+																days = 1
+															}
+														}
+														log = "sfex_survey_order.2.e2: is_scope_type = galactic_object"
+														set_surveyed = {
+															surveyed = yes
+															surveyor = prev.owner
+														}
+														prev = {
+															random_owned_ship = {
+																root = {
+																	log = "0. root = \\[this.GetName]"
+																}
+																this = {
+																	log = "1. this = \\[this.GetName]"
+																}
+																if = {
+																	limit = {
+																		exists = prev
+																	}
+																	prev = {
+																		log = "2. prev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = prevprev
+																	}
+																	prevprev = {
+																		log = "3. prevprev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = prevprevprev
+																	}
+																	prevprevprev = {
+																		log = "4. prevprevprev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = prevprevprevprev
+																	}
+																	prevprevprevprev = {
+																		log = "5. prevprevprevprev = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = from
+																	}
+																	from = {
+																		log = "6. from = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = fromfrom
+																	}
+																	fromfrom = {
+																		log = "7. fromfrom = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = fromfromfrom
+																	}
+																	fromfromfrom = {
+																		log = "8. fromfromfrom = \\[this.GetName]"
+																	}
+																}
+																if = {
+																	limit = {
+																		exists = fromfromfromfrom
+																	}
+																	fromfromfromfrom = {
+																		log = "9. fromfromfromfrom = \\[this.GetName]"
+																	}
+																}
+																fire_on_action = {
+																	on_action = on_survey
+																	scopes = {
+																		from = prevprev
+																	}
+																}
+															}
+														}
+													}
+												}
+												failed = {
+													effect = {
+														id = sfex_survey_order.2.l2
+														log = "sfex_survey_order.2.l2: No planet to survey found."
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+							else = {
+								log = "sfex_survey_order.2: event_target:sfex_core_event_target_1 must be a planet OR galactic_object (solar_system)."
+							}
+						}
+						else = {
+							log = "sfex_survey__order.2: Science ship must be in the same system as event_target:sfex_core_event_target_1 (location)."
+						}
+					}
+					else = {
+						log = "sfex_survey_order.2: object must be fleet scope and shipclass_science_ship or have sfex_fleet_flag_shipclass_science_ship."
+					}
+				}
+				else = {
+					log = "sfex_survey_order.2: event_target:sfex_core_event_target_1 must not be surveyed by fleet owner."
+				}
+			}
+			else = {
+				log = "sfex_survey_order.2: solar_system.owner must not exist (or invalid scope type, must be planet OR galactic_object (solar_system))."
+			}
+		}
+		else = {
+			log = "sfex_survey_order.2: event_target:sfex_core_event_target_1 is not set (location)."
+		}
+	}
+}

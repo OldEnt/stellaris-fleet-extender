@@ -151,6 +151,14 @@ sfex_set_fleet_order = {
 		limit = {
 			has_global_flag = sfex_verbose_logging_scopes_enabled
 		}
+		if = {
+			limit = {
+				exists = event_target:sfex_core_event_target_1
+			}
+			event_target:sfex_core_event_target_1 = {
+				log = "event_target:sfex_core_event_target_1 = \\[this.GetName]"
+			}
+		}
 		root = {
 			log = "0. root = \\[this.GetName]"
 		}
@@ -272,6 +280,27 @@ sfex_set_fleet_order = {
 								}
 							}
 							log = "ORDER build: invalid scope type. Must be planet."
+						}
+					}
+				}
+			}
+			# survey_order
+			sfex_fleet_flag_survey_order = {
+				event_target:sfex_core_event_target_1 = {
+					switch = {
+						trigger = is_scope_type
+						planet = {
+						}
+						galactic_object = {
+						}
+						default = {
+							prev = {
+								set_timed_fleet_flag = {
+									flag = slex_core_scope_1_invalid
+									days = 1
+								}
+							}
+							log = "ORDER survey: invalid scope type. Must be planet or galactic_object (solar_system)."
 						}
 					}
 				}
@@ -527,9 +556,23 @@ sfex_set_fleet_order = {
 					log = "ORDER build: event_target:sfex_core_event_target_1 does not exist."
 				}
 			}
+			# survey_order
+			sfex_fleet_flag_survey_order = {
+				if = {
+					limit = {
+						exists = event_target:sfex_core_event_target_1
+					}
+					fleet_event = {
+						id = sfex_survey_order.2
+					}
+				}
+				else = {
+					log = "ORDER survey: event_target:sfex_core_event_target_1 does not exist."
+				}
+			}
 			default = {
 				event_target:sfex_event_target_mod_name_register = {
-					log = "sfex_set_fleet_order: ORDER must be: jumpdrive build."
+					log = "sfex_set_fleet_order: ORDER must be: jumpdrive build survey."
 				}
 			}
 		}
