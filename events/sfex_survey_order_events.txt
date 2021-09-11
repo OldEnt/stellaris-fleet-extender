@@ -201,7 +201,6 @@ fleet_event = {
 															surveyor = prev.owner
 														}
 														# Bugged vanilla effect. Does not translate scopes properly.
-														# Bugged vanilla effect.
 														# prev = {
 														# 	random_owned_ship = {
 														# 		fire_on_action = {
@@ -236,10 +235,8 @@ fleet_event = {
 																				}
 																			}
 																		}
-																		sfex_prevprevprevprevprevprev = {
-																			EFFECT = sfex_set_fleet_order_survey
-																			PARAM_NAME_1 = TARGET
-																			PARAM_VALUE_1 = solar_system
+																		sfex_set_fleet_order_survey = {
+																			TARGET = solar_system
 																		}
 																	}
 																	else_if = {

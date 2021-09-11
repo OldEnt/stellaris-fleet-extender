@@ -853,21 +853,3 @@ sfex_set_fleet_order_survey = {
 		TARGET = $TARGET|solar_system$
 	}
 }
-
-sfex_prevprevprevprevprevprev = {
-	prev = {
-		prev = {
-			prev = {
-				prev = {
-					prev = {
-						prev = {
-							$EFFECT$ = {
-								$PARAM_NAME_1$ = $PARAM_VALUE_1$
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
