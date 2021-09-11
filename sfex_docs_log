@@ -1,0 +1,47 @@
+Stellaris Fleet EXtender documentation.
+Log output into game.log.
+effect set_global_flag = sfex_verbose_logging_enabled (more log information)
+effect set_global_flag = sfex_verbose_logging_scopes_enabled (print scopes)
+== EFFECT DOCUMENTATION ==
+sfex_set_fleet_order_build = {
+    TARGET = <scope>
+    BUILD_STRUCTURE = <key/starbase>
+}
+Supported Scopes:   fleet
+Supported targets:  galactic_object planet
+Supported structures: starbase (galactic_object planet)
+
+sfex_set_fleet_order_jumpdrive = {
+    TARGET = <scope>
+    JUMPDRIVE_CUSTOM_MAX_RANGE = <float>
+    JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = <bool>
+    JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = <bool>
+}
+Supported Scopes:   fleet
+Supported targets:  ambient_object galactic_object fleet planet megastructure
+
+
+sfex_set_fleet_order_survey = {
+    TARGET = <scope>
+}
+Supported Scopes:   fleet
+Supported targets:  galactic_object planet
+
+== MASTER EFFECT ==
+
+sfex_set_fleet_order = {
+    ORDER = <build/jumpdrive/survey>
+    MODNAME = <string>
+    TARGET = <scope>
+    JUMPDRIVE_CUSTOM_MAX_RANGE = <float>
+    JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = <bool>
+    JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = <bool>
+	BUILD_STRUCTURE = <key/starbase>
+}
+Supported ORDER:    build jumpdrive survey
+Supported MODNAME:  any                                         -   (optional) will be shown in game.log when in debug mode
+Supported TARGET:   <scope>                                     -   build starbase and survey assume galactic_object if not TARGET is not defined, jumprive will throw an exception in game.log
+Supported JUMPDRIVE_CUSTOM_MAX_RANGE = <float>                  -   (optional, default 100) default: @sfex_fleet_order_var_jumpdrive_custom_max_range = 100 (will use variable values from the scopes in following order: fleet > country > global_event_country)
+Supported JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = <bool>              -   (optional, default no) should fleet ignore can_jump_drive game rule (defined as trigger in sfex_jumpdrive_order_scripted_triggers.txt)
+Supported JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = <bool>    -   (optional, default no) should fleet can_enter_system_by_jump game rule (defined as trigger in sfex_jumpdrive_order_scripted_triggers.txt)
+Supported BUILD_STRUCTURE = <key/starbase>                      -   structure to be build, starbase key does not require TARGET to be defined.
