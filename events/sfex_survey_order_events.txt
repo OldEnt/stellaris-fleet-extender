@@ -130,16 +130,17 @@ fleet_event = {
 															surveyed = yes
 															surveyor = prev.owner
 														}
-														prev = {
-															random_owned_ship = {
-																fire_on_action = {
-																	on_action = on_survey
-																	scopes = {
-																		from = prevprev
-																	}
-																}
-															}
-														}
+														# Bugged vanilla effect. Does not translate scopes properly.
+														# prev = {
+														# 	random_owned_ship = {
+														# 		fire_on_action = {
+														# 			on_action = on_survey
+														# 			scopes = {
+														# 				from = prevprev
+														# 			}
+														# 		}
+														# 	}
+														# }
 													}
 												}
 												failed = {
@@ -194,12 +195,32 @@ fleet_event = {
 															surveyed = yes
 															surveyor = prev.owner
 														}
+														# Bugged vanilla effect. Does not translate scopes properly.
+														# Bugged vanilla effect.
+														# prev = {
+														# 	random_owned_ship = {
+														# 		fire_on_action = {
+														# 			on_action = on_survey
+														# 			scopes = {
+														# 				from = prevprev
+														# 			}
+														# 		}
+														# 	}
+														# }
 														prev = {
-															random_owned_ship = {
-																fire_on_action = {
-																	on_action = on_survey
-																	scopes = {
-																		from = prevprev
+															queue_actions = {
+																wait = 1
+																effect = {
+																	id = sfex_survey_order.2.e3
+																	if = {
+																		limit = {
+																			is_fleet_idle = yes
+																		}
+																		sfex_prevprevprevprevprevprev = {
+																			EFFECT = sfex_set_fleet_order_survey
+																			PARAM_NAME_1 = TARGET
+																			PARAM_VALUE_1 = solar_system
+																		}
 																	}
 																}
 															}

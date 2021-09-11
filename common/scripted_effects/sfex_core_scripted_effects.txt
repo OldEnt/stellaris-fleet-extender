@@ -851,3 +851,21 @@ sfex_set_fleet_order_survey = {
 		]
 	}
 }
+
+sfex_prevprevprevprevprevprev = {
+	prev = {
+		prev = {
+			prev = {
+				prev = {
+					prev = {
+						prev = {
+							$EFFECT$ = {
+								$PARAM_NAME_1$ = $PARAM_VALUE_1$
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
