@@ -146,7 +146,12 @@ fleet_event = {
 												failed = {
 													effect = {
 														id = sfex_survey_order.2.l3
-														log = "sfex_survey_order.2.e3: No planet to survey found."
+														if = {
+															limit = {
+																has_global_flag = sfex_verbose_logging_enabled
+															}
+															log = "sfex_survey_order.2.l3: No planet to survey found or interrupted."
+														}
 													}
 												}
 											}
@@ -214,13 +219,34 @@ fleet_event = {
 																	id = sfex_survey_order.2.e3
 																	if = {
 																		limit = {
-																			is_fleet_idle = yes
+																			OR = {
+																				solar_system = {
+																					is_surveyed = {
+																						who = prev.owner
+																						status = no
+																					}
+																				}
+																				solar_system = {
+																					any_system_planet = {
+																						is_surveyed = {
+																							who = prevprev.owner
+																							status = no
+																						}
+																					}
+																				}
+																			}
 																		}
 																		sfex_prevprevprevprevprevprev = {
 																			EFFECT = sfex_set_fleet_order_survey
 																			PARAM_NAME_1 = TARGET
 																			PARAM_VALUE_1 = solar_system
 																		}
+																	}
+																	else_if = {
+																		limit = {
+																			has_global_flag = sfex_verbose_logging_enabled
+																		}
+																		log = "sfex_survey_order.2.e3: No planet to survey found or interrupted."
 																	}
 																}
 															}
@@ -230,7 +256,12 @@ fleet_event = {
 												failed = {
 													effect = {
 														id = sfex_survey_order.2.l2
-														log = "sfex_survey_order.2.l2: No planet to survey found."
+														if = {
+															limit = {
+																has_global_flag = sfex_verbose_logging_enabled
+															}
+															log = "sfex_survey_order.2.l2: No planet to survey found or interrupted."
+														}
 													}
 												}
 											}

@@ -92,6 +92,12 @@ sfex_set_fleet_order = {
 		flag = sfex_fleet_flag_$MODNAME$_value
 		days = 16
 	}
+	if = {
+		limit = {
+			has_global_flag = sfex_verbose_logging_enabled
+		}
+		log = "sfex_set_fleet_order MODNAME: $MODNAME$"
+	}
 	# check if optional MODNAME exist
 	event_target:sfex_core_global_country = {
 		if = {
@@ -843,12 +849,8 @@ sfex_set_fleet_order_build = {
 sfex_set_fleet_order_survey = {
 	sfex_set_fleet_order = {
 		ORDER = survey
-		[[MODNAME]
-		MODNAME = $MODNAME$
-		]
-		[[TARGET]
-		TARGET = $TARGET$
-		]
+		MODNAME = $MODNAME|sfex_set_fleet_order_survey$
+		TARGET = $TARGET|solar_system$
 	}
 }
 

@@ -20,7 +20,7 @@ sfex_set_fleet_order_jumpdrive = {
 Supported Scopes:   fleet
 Supported targets:  ambient_object galactic_object fleet planet megastructure
 
-
+sfex_set_fleet_order_survey = yes
 sfex_set_fleet_order_survey = {
     TARGET = <scope>
 }
@@ -40,7 +40,7 @@ sfex_set_fleet_order = {
 }
 Supported ORDER:    build jumpdrive survey
 Supported MODNAME:  any                                         -   (optional) will be shown in game.log when in debug mode
-Supported TARGET:   <scope>                                     -   build starbase and survey assume galactic_object if not TARGET is not defined, jumprive will throw an exception in game.log
+Supported TARGET:   <scope>                                     -   build starbase and survey assume galactic_object if TARGET is not defined, jumprive will throw an exception in game.log
 Supported JUMPDRIVE_CUSTOM_MAX_RANGE = <float>                  -   (optional, default 100) default: @sfex_fleet_order_var_jumpdrive_custom_max_range = 100 (will use variable values from the scopes in following order: fleet > country > global_event_country)
 Supported JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = <bool>              -   (optional, default no) should fleet ignore can_jump_drive game rule (defined as trigger in sfex_jumpdrive_order_scripted_triggers.txt)
 Supported JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = <bool>    -   (optional, default no) should fleet can_enter_system_by_jump game rule (defined as trigger in sfex_jumpdrive_order_scripted_triggers.txt)
