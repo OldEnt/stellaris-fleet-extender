@@ -24,12 +24,12 @@ sfex_core_create_global_country_if_needed = {
 		last_created_country = {
 			create_leader = {
 				class = general
-				name = name_register
+				name = sfex_name_register
 				species = event_target:sfex_core_global_species
 				immortal = yes
 			}
 			last_created_leader = {
-				set_leader_flag = name_register
+				set_leader_flag = sfex_name_register
 				save_global_event_target_as = sfex_event_target_mod_name_register
 			}
 		}
@@ -433,7 +433,7 @@ sfex_set_fleet_order = {
 						}
 						set_variable = {
 							which = sfex_fleet_order_var_jumpdrive_custom_max_range_set
-							value = sfex_fleet_order_var_jumpdrive_custom_max_range.owner							# Vanilla default
+							value = owner.sfex_fleet_order_var_jumpdrive_custom_max_range							# Vanilla default
 						}
 					}
 					else_if = {
@@ -444,7 +444,7 @@ sfex_set_fleet_order = {
 						}
 						set_variable = {
 							which = sfex_fleet_order_var_jumpdrive_custom_max_range_set
-							value = sfex_fleet_order_var_jumpdrive_custom_max_range.event_target:global_event_country							# Vanilla default
+							value = event_target:global_event_country.sfex_fleet_order_var_jumpdrive_custom_max_range							# Vanilla default
 						}
 					}
 					else_if = {

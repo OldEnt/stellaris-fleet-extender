@@ -39,17 +39,18 @@ fleet_event = {
 				limit = {
 					is_star = yes
 				}
-				save_event_target_as = sfex_build_target_debug
+				prevprev = {
+					sfex_set_fleet_order = {
+						ORDER = build						# jumpdrive, build, survey
+						MODNAME = sfex_core_debug						# TO DO! (optional) unique mod prefix which executes this effect (or other custom string). Useful for debugging.
+						TARGET = prev						# jumpdrive: galactic_object build: planet, galactic_object (starbase)
+						# JUMPDRIVE_CUSTOM_MAX_RANGE = 150			# (optional) float, default: @sfex_fleet_order_var_jumpdrive_custom_max_range = 100 (fleet > country > global_event_country)
+						# JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = no
+						# JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = yes			# (optional) bool, default: no. see game_rules
+						BUILD_STRUCTURE = starbase						# TO DO (accepts starbase only)! starbase research_station mining_station observation_outpost megastructure (ie. spy_orb_0)
+					}
+				}
 			}
-		}
-		sfex_set_fleet_order = {
-			ORDER = build			# jumpdrive, build, survey
-			MODNAME = sfex_core_debug			# TO DO! (optional) unique mod prefix which executes this effect (or other custom string). Useful for debugging.
-			TARGET = sfex_build_target_debug			# jumpdrive: galactic_object build: planet, galactic_object (starbase)
-			# JUMPDRIVE_CUSTOM_MAX_RANGE = 150			# (optional) float, default: @sfex_fleet_order_var_jumpdrive_custom_max_range = 100 (fleet > country > global_event_country)
-			# JUMPDRIVE_IGNORE_CAN_JUMP_DRIVE = no
-			# JUMPDRIVE_IGNORE_CAN_ENTER_SYSTEM_BY_JUMP = yes			# (optional) bool, default: no. see game_rules
-			BUILD_STRUCTURE = starbase			# TO DO (accepts starbase only)! starbase research_station mining_station observation_outpost megastructure (ie. spy_orb_0)
 		}
 	}
 }

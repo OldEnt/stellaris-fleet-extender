@@ -4,5 +4,5 @@ tags={
 	"Fixes"
 }
 name="sfex-draft"
-supported_version="3.0.4"
+supported_version="3.1.*"
 remote_file_id="2596950270"
