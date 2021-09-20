@@ -38,38 +38,53 @@ sfex_build_order_structures_starbase = {
 			log = "sfex_custom_on_action_build_order: event_target:sfex_core_event_target_1 is neither galactic_object nor planet. Unable to build starbase."
 		}
 	}
-	queue_actions = {
-		move_to = event_target:sfex_build_order_event_target_starbase_target
-		orbit_planet = event_target:sfex_build_order_event_target_starbase_target
-		wait = 5
-		effect = {
-			id = sfex_build_order_structures_starbase.e1
-			if = {
-				limit = {
-					NOT = {
-						has_global_flag = sfex_gfx_disabled
+	if = {
+		limit = {
+			exists = event_target:sfex_build_order_event_target_starbase_target
+		}
+		clear_orders = yes
+		clear_fleet_actions = this
+		set_variable = {
+			which = acemod_var_fleet_piloted_exclusion			# acemod_set_fleet_piloted_exclusion_on = yes
+			value = 1
+		}
+		queue_actions = {
+			move_to = event_target:sfex_build_order_event_target_starbase_target
+			orbit_planet = event_target:sfex_build_order_event_target_starbase_target
+			wait = 5
+			effect = {
+				id = sfex_build_order_structures_starbase.e1
+				if = {
+					limit = {
+						NOT = {
+							has_global_flag = sfex_gfx_disabled
+						}
 					}
-				}
-				random_owned_ship = {
-					create_ambient_object = {
-						type = sfex_gfx_ambient_object_build_order_construction
-						scale = 0.1
-						use_3d_location = yes
-						entity_face_object = this
-						entity_scale_to_size = yes
-						location = this
-						duration = 90						# does not accept variable
-					}
-					last_created_ambient_object = {
-						set_ambient_object_flag = sfex_build_order_ambient_object_flag_construction
+					random_owned_ship = {
+						create_ambient_object = {
+							type = sfex_gfx_ambient_object_build_order_construction
+							scale = 0.1
+							use_3d_location = yes
+							entity_face_object = this
+							entity_scale_to_size = yes
+							location = this
+							duration = 90							# does not accept variable
+						}
+						last_created_ambient_object = {
+							set_ambient_object_flag = sfex_build_order_ambient_object_flag_construction
+						}
 					}
 				}
 			}
-		}
-		wait = 90		# Does not accept variable?
-		effect = {
-			id = sfex_build_order_structures_starbase.e2
-			sfex_build_order_structures_starbase_spawn = yes
+			wait = 90			# Does not accept variable?
+			effect = {
+				id = sfex_build_order_structures_starbase.e2
+				set_variable = {
+					which = acemod_var_fleet_piloted_exclusion					# acemod_set_fleet_piloted_exclusion_off = yes
+					value = 0
+				}
+				sfex_build_order_structures_starbase_spawn = yes
+			}
 		}
 	}
 }

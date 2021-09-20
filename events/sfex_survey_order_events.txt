@@ -98,6 +98,12 @@ fleet_event = {
 										is_scope_type = planet
 									}
 									prev = {
+										clear_orders = yes
+										clear_fleet_actions = this
+										set_variable = {
+											which = acemod_var_fleet_piloted_exclusion											# acemod_set_fleet_piloted_exclusion_on = yes
+											value = 1
+										}
 										queue_actions = {
 											find_closest_planet = {
 												trigger = {
@@ -130,6 +136,12 @@ fleet_event = {
 															surveyed = yes
 															surveyor = prev.owner
 														}
+														prev = {
+															set_variable = {
+																which = acemod_var_fleet_piloted_exclusion																# acemod_set_fleet_piloted_exclusion_off = yes
+																value = 0
+															}
+														}
 														# Bugged vanilla effect. Does not translate scopes properly.
 														# prev = {
 														# 	random_owned_ship = {
@@ -146,6 +158,10 @@ fleet_event = {
 												failed = {
 													effect = {
 														id = sfex_survey_order.2.l3
+														set_variable = {
+															which = acemod_var_fleet_piloted_exclusion															# acemod_set_fleet_piloted_exclusion_off = yes
+															value = 0
+														}
 														if = {
 															limit = {
 																has_global_flag = sfex_verbose_logging_enabled
@@ -163,6 +179,12 @@ fleet_event = {
 										is_scope_type = galactic_object
 									}
 									prev = {
+										clear_orders = yes
+										clear_fleet_actions = this
+										set_variable = {
+											which = acemod_var_fleet_piloted_exclusion											# acemod_set_fleet_piloted_exclusion_on = yes
+											value = 1
+										}
 										queue_actions = {
 											find_closest_planet = {
 												trigger = {
@@ -239,11 +261,17 @@ fleet_event = {
 																			TARGET = solar_system
 																		}
 																	}
-																	else_if = {
-																		limit = {
-																			has_global_flag = sfex_verbose_logging_enabled
+																	else = {
+																		set_variable = {
+																			which = acemod_var_fleet_piloted_exclusion																			# acemod_set_fleet_piloted_exclusion_off = yes
+																			value = 0
 																		}
-																		log = "sfex_survey_order.2.e3: No planet to survey found or interrupted."
+																		if = {
+																			limit = {
+																				has_global_flag = sfex_verbose_logging_enabled
+																			}
+																			log = "sfex_survey_order.2.e3: No planet to survey found or interrupted."
+																		}
 																	}
 																}
 															}
@@ -253,6 +281,10 @@ fleet_event = {
 												failed = {
 													effect = {
 														id = sfex_survey_order.2.l2
+														set_variable = {
+															which = acemod_var_fleet_piloted_exclusion															# acemod_set_fleet_piloted_exclusion_off = yes
+															value = 0
+														}
 														if = {
 															limit = {
 																has_global_flag = sfex_verbose_logging_enabled

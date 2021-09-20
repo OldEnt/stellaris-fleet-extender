@@ -71,10 +71,6 @@ fleet_event = {
 			limit = {
 				exists = event_target:sfex_core_event_target_1
 			}
-			set_variable = {
-				which = acemod_var_fleet_piloted_exclusion				# acemod_set_fleet_piloted_exclusion_off = yes
-				value = 0
-			}
 			if = {
 				limit = {
 					is_disabled = no
@@ -112,6 +108,10 @@ fleet_event = {
 		}
 		else = {
 			log = "sfex_jumpdrive_order.3: event_target:sfex_core_event_target_1 does not exist."
+			set_variable = {
+				which = acemod_var_fleet_piloted_exclusion				# acemod_set_fleet_piloted_exclusion_off = yes
+				value = 0
+			}
 		}
 	}
 }
@@ -260,6 +260,10 @@ fleet_event = {
 				}
 			}
 			play_sound = ftl_hyperlane_in_coming_ship
+		}
+		set_variable = {
+			which = acemod_var_fleet_piloted_exclusion			# acemod_set_fleet_piloted_exclusion_off = yes
+			value = 0
 		}
 	}
 }
