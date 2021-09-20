@@ -142,15 +142,110 @@ fleet_event = {
 					limit = {
 						is_scope_type = galactic_object
 					}
-					random_system_planet = {
-						prevprev = {
-							set_location = {
-								target = prev
-								distance = 0
-								angle = 0
-								direction = in_system
+					if = {
+						limit = {
+							NOT = {
+								is_variable_set = sfex_jumpdrive_order_var_system_radius
 							}
 						}
+						sfex_jumpdrive_order_export_planets_in_system_distance_to_centre_point = yes
+						# Not working in 3.1.
+						# if = {
+						# 	limit = {
+						# 		any_system_planet = {
+						# 			is_primary_star = yes
+						# 		}
+						# 	}
+						# 	random_system_planet = {
+						# 		limit = {
+						# 			is_primary_star = yes
+						# 		}
+						# 		solar_system = {
+						# 			every_system_planet = {
+						# 				export_trigger_value_to_variable = {
+						# 					trigger = distance
+						# 					variable = sfex_jumpdrive_order_var_distance_measured
+						# 					parameters = {
+						# 						same_solar_system = yes
+						# 						source = prevprev
+						# 					}
+						# 				}
+						# 			}
+						# 		}
+						# 	}
+						# 	ordered_system_planet = {
+						# 		position = 0
+						# 		order_by = sfex_jumpdrive_order_var_distance_measured
+						# 		inverse = yes
+						# 		set_planet_flag = sfex_sfex_jumpdrive_order_furthest_planet
+						# 	}
+						# }
+						sfex_core_create_global_country_if_needed = yes
+						event_target:sfex_core_global_country = {
+							if = {
+								limit = {
+									NOT = {
+										is_variable_set = sfex_jumpdrive_order_var_system_radius_offset
+									}
+								}
+								set_variable = {
+									which = sfex_jumpdrive_order_var_system_radius_base_offset
+									value = 50
+								}
+								set_variable = {
+									which = sfex_jumpdrive_order_var_system_radius_no_planets_offset
+									value = 75
+								}
+							}
+						}
+						ordered_system_planet = {
+							position = 0
+							order_by = sfex_jumpdrive_order_var_distance_measured
+							inverse = no
+							solar_system = {
+								set_variable = {
+									which = sfex_jumpdrive_order_var_system_radius
+									value = prev.sfex_jumpdrive_order_var_distance_measured
+								}
+								change_variable = {
+									which = sfex_jumpdrive_order_var_system_radius
+									value = event_target:sfex_core_global_country.sfex_jumpdrive_order_var_system_radius_base_offset
+								}
+								if = {
+									limit = {
+										num_planets_in_system <= 2										# Probably needs tweaking for edge cases.
+									}
+									change_variable = {
+										which = sfex_jumpdrive_order_var_system_radius
+										value = event_target:sfex_core_global_country.sfex_jumpdrive_order_var_system_radius_no_planets_offset
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							is_variable_set = sfex_jumpdrive_order_var_system_radius
+						}
+						sfex_jumpdrive_order_set_location = yes
+					}
+					else_if = {
+						limit = {
+							num_planets_in_system >= 1
+						}
+						random_system_planet = {
+							prevprev = {
+								set_location = {
+									target = prev
+									distance = 0
+									angle = 0
+									direction = in_system
+								}
+							}
+						}
+					}
+					else = {
+						log = "sfex_jumpdrive_order.4: No planets in the system to jump onto."
 					}
 				}
 				else = {
