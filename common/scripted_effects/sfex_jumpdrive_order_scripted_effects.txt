@@ -7043,7 +7043,7 @@ sfex_jumpdrive_order_measure_point_distance_to_centre_point = {
 	else = {
 		set_variable = {
 			which = sfex_jumpdrive_order_var_distance_measured
-			value = 501
+			value = 501			# Failsafe value.
 		}
 	}
 }
@@ -19067,6 +19067,24 @@ sfex_jumpdrive_order_set_location = {
 				set_location = {
 					target = prev
 					distance = 500
+					angle = random
+					direction = in_system
+				}
+			}
+		}
+	}
+	else = {
+		random_system_planet = {
+			limit = {
+				check_variable = {
+					which = sfex_jumpdrive_order_var_distance_measured
+					value = 0
+				}
+			}
+			prevprev = {
+				set_location = {
+					target = prev
+					distance = 501					# Failsafe value.
 					angle = random
 					direction = in_system
 				}
