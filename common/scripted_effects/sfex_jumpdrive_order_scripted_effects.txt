@@ -1,3 +1,51 @@
+sfex_jumpdrive_order_apply_cooldown_effect = {
+	if = {
+		limit = {
+			NOR = {
+				has_global_flag = sfex_jumpdrive_order_global_flag_jump_drive_cooldown_disabled
+				owner = {
+					has_country_flag = sfex_jumpdrive_order_country_flag_jump_drive_cooldown_disabled
+				}
+				has_fleet_flag = sfex_jumpdrive_order_fleet_flag_jump_drive_cooldown_disabled
+			}
+		}
+		sfex_core_create_global_country_if_needed = yes
+		event_target:sfex_core_global_country = {
+			if = {
+				limit = {
+					NOT = {
+						is_variable_set = sfex_jumpdrive_order_var_sfex_jump_drive_cooldown_time
+					}
+				}
+				set_variable = {
+					which = sfex_jumpdrive_order_var_sfex_jump_drive_cooldown_time
+					value = 200
+				}
+			}
+		}
+		owner = {
+			if = {
+				limit = {
+					NOT = {
+						is_variable_set = sfex_jumpdrive_order_var_sfex_jump_drive_cooldown_time
+					}
+				}
+				set_variable = {
+					which = sfex_jumpdrive_order_var_sfex_jump_drive_cooldown_time
+					value = event_target:sfex_core_global_country.sfex_jumpdrive_order_var_sfex_jump_drive_cooldown_time
+				}
+			}
+		}
+		every_owned_ship = {
+			add_modifier = {
+				modifier = sfex_jump_drive_order_cooldown
+				days = 1
+				time_multiplier = owner.sfex_jumpdrive_order_var_sfex_jump_drive_cooldown_time
+			}
+		}
+	}
+}
+
 sfex_jumpdrive_order_export_planets_in_system_distance_to_centre_point = {
 	if = {
 		limit = {
