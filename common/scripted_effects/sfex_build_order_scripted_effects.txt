@@ -147,6 +147,9 @@ sfex_build_order_structures_starbase_spawn = {
 					}
 				}
 			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
+			}
 			break = yes
 		}
 		if = {
@@ -187,6 +190,9 @@ sfex_build_order_structures_starbase_spawn = {
 							}
 						}
 					}
+					fire_on_action = {
+						on_action = sfex_on_build_order_complete
+					}
 				}
 				25 = {
 					solar_system = {
@@ -222,6 +228,9 @@ sfex_build_order_structures_starbase_spawn = {
 							}
 						}
 					}
+					fire_on_action = {
+						on_action = sfex_on_build_order_complete
+					}
 				}
 			}
 			break = yes
@@ -251,6 +260,9 @@ sfex_build_order_structures_starbase_spawn = {
 					}
 				}
 			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
+			}
 			break = yes
 		}
 		if = {
@@ -270,6 +282,9 @@ sfex_build_order_structures_starbase_spawn = {
 					owner = prev.owner
 				}
 			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
+			}
 			break = yes
 		}
 		if = {
@@ -286,6 +301,9 @@ sfex_build_order_structures_starbase_spawn = {
 					size = starbase_fe_outpost
 					owner = prev.owner
 				}
+			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
 			}
 			break = yes
 		}
@@ -304,6 +322,9 @@ sfex_build_order_structures_starbase_spawn = {
 					size = starbase_gatebuilders
 					owner = prev.owner
 				}
+			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
 			}
 			break = yes
 		}
@@ -340,6 +361,9 @@ sfex_build_order_structures_starbase_spawn = {
 					owner = prev.owner
 				}
 			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
+			}
 			break = yes
 		}
 		if = {
@@ -356,6 +380,9 @@ sfex_build_order_structures_starbase_spawn = {
 					size = starbase_citadel
 					owner = prev.owner
 				}
+			}
+			fire_on_action = {
+				on_action = sfex_on_build_order_complete
 			}
 			break = yes
 		}

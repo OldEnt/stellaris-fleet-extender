@@ -228,6 +228,16 @@ fleet_event = {
 							is_variable_set = sfex_jumpdrive_order_var_system_radius
 						}
 						sfex_jumpdrive_order_set_location = yes
+						# Root = Fleet
+						# From = TARGET System - does not work in 3.1.1
+						# FromFrom = ORIGIN System - does not work in 3.1.1
+						fire_on_action = {
+							on_action = sfex_on_jumpdrive_order_complete
+							scopes = {
+								from = solar_system
+								fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+							}
+						}
 					}
 					else_if = {
 						limit = {
@@ -240,6 +250,16 @@ fleet_event = {
 									distance = 0
 									angle = 0
 									direction = in_system
+								}
+								# Root = Fleet
+								# From = TARGET System - does not work in 3.1.1
+								# FromFrom = ORIGIN System - does not work in 3.1.1
+								fire_on_action = {
+									on_action = sfex_on_jumpdrive_order_complete
+									scopes = {
+										from = solar_system
+										fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+									}
 								}
 							}
 						}
@@ -255,6 +275,16 @@ fleet_event = {
 							distance = 0
 							angle = 0
 							direction = in_system
+						}
+						# Root = Fleet
+						# From = TARGET System - does not work in 3.1.1
+						# FromFrom = ORIGIN System - does not work in 3.1.1
+						fire_on_action = {
+							on_action = sfex_on_jumpdrive_order_complete
+							scopes = {
+								from = solar_system
+								fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+							}
 						}
 					}
 				}
