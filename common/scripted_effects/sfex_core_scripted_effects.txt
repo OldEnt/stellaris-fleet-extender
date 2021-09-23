@@ -136,7 +136,6 @@ sfex_set_fleet_order = {
 		}
 	}
 	# grab TARGET scope
-	# sfex_core_grab_target_1_scope_legacy_scripted_effect = yes
 	[[TARGET]
 	set_fleet_flag = sfex_$TARGET$
 	set_timed_fleet_flag = {
@@ -503,9 +502,7 @@ sfex_set_fleet_order = {
 					# 		has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_jump_drive_yes
 					# 		has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_can_enter_system_by_jump_yes
 					# 	}
-					# 	fleet_event = {
-					# 		id = sfex_jumpdrive_order.2							# jumpdrive_windup
-					# 	}
+					# 	sfex_core_evaluate_scripted_triggers_and_jump_effect = yes							# jumpdrive_windup
 					# }
 					if = {
 						limit = {
@@ -541,18 +538,14 @@ sfex_set_fleet_order = {
 										}
 										log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned true."
 									}
-									fleet_event = {
-										id = sfex_jumpdrive_order.2										# jumpdrive_windup
-									}
+									sfex_core_evaluate_scripted_triggers_and_jump_effect = yes							# jumpdrive_windup
 								}
 								else = {
 									log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned false."
 								}
 							}
 							else = {
-								fleet_event = {
-									id = sfex_jumpdrive_order.2									# jumpdrive_windup
-								}
+								sfex_core_evaluate_scripted_triggers_and_jump_effect = yes							# jumpdrive_windup
 							}
 						}
 						else = {
@@ -578,18 +571,14 @@ sfex_set_fleet_order = {
 									}
 									log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned true."
 								}
-								fleet_event = {
-									id = sfex_jumpdrive_order.2									# jumpdrive_windup
-								}
+								sfex_core_evaluate_scripted_triggers_and_jump_effect = yes								# jumpdrive_windup
 							}
 							else = {
 								log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned false."
 							}
 						}
 						else = {
-							fleet_event = {
-								id = sfex_jumpdrive_order.2								# jumpdrive_windup
-							}
+							sfex_core_evaluate_scripted_triggers_and_jump_effect = yes							# jumpdrive_windup
 						}
 					}
 				}
@@ -658,155 +647,79 @@ sfex_set_fleet_order = {
 	}
 }
 
-sfex_core_grab_target_1_scope_legacy_scripted_effect = {
-	# grab TARGET scope
-	[[TARGET]
-	set_fleet_flag = sfex_$TARGET$
-	]
+sfex_core_evaluate_scripted_triggers_and_jump_effect = {
 	if = {
 		limit = {
-			has_fleet_flag = sfex_$TARGET$
+			sfex_jumpdrive_order_has_ftl_drive_scripted_trigger = yes
 		}
 		if = {
 			limit = {
-				exists = event_target:$TARGET$
+				has_global_flag = sfex_verbose_logging_enabled
 			}
-			event_target:$TARGET$ = {
-				save_event_target_as = sfex_core_event_target_1
+			log = "sfex_jumpdrive_order_has_ftl_drive_scripted_trigger returned true."
+		}
+		# Validate if target is the same solar_system as origin. If not check distance against fleet range.
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						event_target:sfex_core_event_target_1 = {
+							is_scope_type = galactic_object
+						}
+						solar_system = {
+							is_same_value = event_target:sfex_core_event_target_1
+						}
+					}
+					AND = {
+						NOT = {
+							event_target:sfex_core_event_target_1 = {
+								is_scope_type = galactic_object
+							}
+						}
+						event_target:sfex_core_event_target_1 = {
+							exists = solar_system
+							solar_system = {
+								is_same_value = prevprev.solar_system
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = sfex_verbose_logging_enabled
+				}
+				log = "sfex_core_evaluate_scripted_triggers_and_jump_effect: target solar system is_same_value as origin solar_system."
+			}
+			fleet_event = {
+				id = sfex_jumpdrive_order.2				# jumpdrive_windup
 			}
 		}
 		else = {
-			switch = {
-				trigger = has_fleet_flag
-				# sfex_this = {}
-				sfex_root = {
-					if = {
-						limit = {
-							exists = root
-						}
-						root = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: root is valid scope operator but scope does not exist."
-					}
+			sfex_jumpdrive_order_calculate_effective_range_effect = yes
+			sfex_jumpdrive_order_measure_origin_distance_set_var_storage_effect = yes
+			sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = yes
+			if = {
+				limit = {
+					sfex_jumpdrive_order_target_in_range_scripted_trigger = yes
 				}
-				sfex_prev = {
-					if = {
-						limit = {
-							exists = prev
-						}
-						prev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
+				if = {
+					limit = {
+						has_global_flag = sfex_verbose_logging_enabled
 					}
-					else = {
-						log = "sfex_set_fleet_order: prev is valid scope operator but scope does not exist."
-					}
+					log = "sfex_jumpdrive_order_target_in_range_scripted_trigger returned true."
 				}
-				sfex_prevprev = {
-					if = {
-						limit = {
-							exists = prevprev
-						}
-						prevprev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prevprev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_prevprevprev = {
-					if = {
-						limit = {
-							exists = prevprevprev
-						}
-						prevprevprev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prevprevprev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_prevprevprevprev = {
-					if = {
-						limit = {
-							exists = prevprevprevprev
-						}
-						prevprevprevprev = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: prevprevprevprev is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_from = {
-					if = {
-						limit = {
-							exists = from
-						}
-						from = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: from is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_fromfrom = {
-					if = {
-						limit = {
-							exists = fromfrom
-						}
-						fromfrom = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: fromfrom is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_fromfromfrom = {
-					if = {
-						limit = {
-							exists = fromfromfrom
-						}
-						fromfromfrom = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: fromfromfrom is valid scope operator but scope does not exist."
-					}
-				}
-				sfex_fromfromfromfrom = {
-					if = {
-						limit = {
-							exists = fromfromfromfrom
-						}
-						fromfromfromfrom = {
-							save_event_target_as = sfex_core_event_target_1
-						}
-					}
-					else = {
-						log = "sfex_set_fleet_order: fromfromfromfrom is valid scope operator but scope does not exist."
-					}
-				}
-				# sfex_owner = {}
-				# sfex_controller = {}
-				# sfex_capital = {}
-				# sfex_solar_system = {}
-				# sfex_leader = {}
-				# sfex_random = {}
-				default = {
-					log = "sfex_set_fleet_order: Unsupported scope operator. event_targets must be referenced by name only. TARGET = event_target root prev prevprev prevprevprev prevprevprevprev from fromfrom fromfromfrom fromfromfromfrom."
+				fleet_event = {
+					id = sfex_jumpdrive_order.2					# jumpdrive_windup
 				}
 			}
+			else = {
+				log = "sfex_jumpdrive_order_target_in_range_scripted_trigger returned false."
+			}
 		}
+	}
+	else = {
+		log = "sfex_jumpdrive_order_has_ftl_drive_scripted_trigger returned false."
 	}
 }
 

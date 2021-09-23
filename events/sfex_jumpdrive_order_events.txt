@@ -63,9 +63,15 @@ fleet_event = {
 	immediate = {
 		if = {
 			limit = {
-				is_variable_set = sfex_fleet_order_var_jumpdrive_custom_max_range_set
+				OR = {
+					is_variable_set = sfex_fleet_order_var_jumpdrive_custom_max_range_set
+					is_variable_set = sfex_fleet_order_var_jumpdrive_effective_range
+					# is_variable_set = sfex_jumpdrive_order_var_distance_interstellar_measured
+				}
 			}
 			clear_variable = sfex_fleet_order_var_jumpdrive_custom_max_range_set
+			clear_variable = sfex_fleet_order_var_jumpdrive_effective_range
+			# clear_variable = sfex_jumpdrive_order_var_distance_interstellar_measured			# Last jump distance for debug.
 		}
 		if = {
 			limit = {

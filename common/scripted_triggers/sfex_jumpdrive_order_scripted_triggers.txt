@@ -1,3 +1,30 @@
+sfex_jumpdrive_order_has_ftl_drive_scripted_trigger = {
+	OR = {
+		has_global_flag = sfex_jumpdrive_order_global_flag_has_ftl_drive_disabled
+		has_fleet_flag = sfex_jumpdrive_order_fleet_flag_ignore_has_ftl_drive
+		owner = {
+			has_country_flag = sfex_jumpdrive_order_country_flag_ignore_has_ftl_drive
+		}
+		count_owned_ship = {
+			count = all
+			limit = {
+				OR = {
+					has_ship_flag = sfex_jumpdrive_order_ship_flag_ignore_has_ftl_drive
+					has_component = JUMP_DRIVE_1
+					has_component = PSI_JUMP_DRIVE_1
+				}
+			}
+		}
+	}
+}
+
+sfex_jumpdrive_order_target_in_range_scripted_trigger = {
+	check_variable = {
+		which = sfex_fleet_order_var_jumpdrive_effective_range
+		value >= sfex_jumpdrive_order_var_distance_interstellar_measured
+	}
+}
+
 # can_enter_system_by_jump and can_jump_drive scripted triggers are from The Merger of Rules by Inny78 [The Merger] Mod SteamID: 2458836869
 # THIS = Fleet
 sfex_jumpdrive_order_can_jump_drive_scripted_trigger = {
