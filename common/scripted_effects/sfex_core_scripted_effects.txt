@@ -13,15 +13,8 @@ sfex_core_create_global_country_if_needed = {
 				save_global_event_target_as = sfex_core_global_species
 			}
 		}
-		create_country = {
-			type = sfex_core_global_country
-			name = "SFEX Core Global Event Country"
-			species = event_target:sfex_core_global_species
-			effect = {
-				save_global_event_target_as = sfex_core_global_country
-			}
-		}
-		last_created_country = {
+		event_target:global_event_country = {
+			save_global_event_target_as = sfex_core_global_country			# For better savegame compatibility.
 			create_leader = {
 				class = general
 				name = sfex_name_register
@@ -33,6 +26,26 @@ sfex_core_create_global_country_if_needed = {
 				save_global_event_target_as = sfex_event_target_mod_name_register
 			}
 		}
+		# create_country = {
+		# 	type = sfex_core_global_country
+		# 	name = "SFEX Core Global Event Country"
+		# 	species = event_target:sfex_core_global_species
+		# 	effect = {
+		# 		save_global_event_target_as = sfex_core_global_country
+		# 	}
+		# }
+		# last_created_country = {
+		# 	create_leader = {
+		# 		class = general
+		# 		name = sfex_name_register
+		# 		species = event_target:sfex_core_global_species
+		# 		immortal = yes
+		# 	}
+		# 	last_created_leader = {
+		# 		set_leader_flag = sfex_name_register
+		# 		save_global_event_target_as = sfex_event_target_mod_name_register
+		# 	}
+		# }
 	}
 }
 
@@ -334,7 +347,7 @@ sfex_set_fleet_order = {
 						default = {
 							prev = {
 								set_timed_fleet_flag = {
-									flag = slex_core_scope_1_invalid
+									flag = sfex_core_scope_1_invalid
 									days = 1
 								}
 							}
@@ -355,7 +368,7 @@ sfex_set_fleet_order = {
 						default = {
 							prev = {
 								set_timed_fleet_flag = {
-									flag = slex_core_scope_1_invalid
+									flag = sfex_core_scope_1_invalid
 									days = 1
 								}
 							}
@@ -376,7 +389,7 @@ sfex_set_fleet_order = {
 						default = {
 							prev = {
 								set_timed_fleet_flag = {
-									flag = slex_core_scope_1_invalid
+									flag = sfex_core_scope_1_invalid
 									days = 1
 								}
 							}
@@ -390,7 +403,7 @@ sfex_set_fleet_order = {
 	if = {
 		limit = {
 			NOT = {
-				has_fleet_flag = slex_core_scope_1_invalid
+				has_fleet_flag = sfex_core_scope_1_invalid
 			}
 		}
 		switch = {
@@ -538,14 +551,14 @@ sfex_set_fleet_order = {
 										}
 										log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned true."
 									}
-									sfex_core_evaluate_scripted_triggers_and_jump_effect = yes							# jumpdrive_windup
+									sfex_core_evaluate_scripted_triggers_and_jump_effect = yes									# jumpdrive_windup
 								}
 								else = {
 									log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned false."
 								}
 							}
 							else = {
-								sfex_core_evaluate_scripted_triggers_and_jump_effect = yes							# jumpdrive_windup
+								sfex_core_evaluate_scripted_triggers_and_jump_effect = yes								# jumpdrive_windup
 							}
 						}
 						else = {
