@@ -112,18 +112,18 @@ fleet_event = {
 												}
 												found_planet = {
 													move_to = this
-													wait = 5
 													orbit_planet = this
+													wait = 3
 													effect = {
 														id = sfex_survey_order.2.e1
 														set_timed_planet_flag = {
 															flag = sfex_planet_flag_survey_completed@prev
-															days = 1
+															days = 10
 														}
 														prev = {
 															set_timed_fleet_flag = {
 																flag = sfex_fleet_flag_survey_completed@prev
-																days = 1
+																days = 10
 															}
 														}
 														if = {
@@ -142,17 +142,11 @@ fleet_event = {
 																value = 0
 															}
 														}
-														# Bugged vanilla effect. Does not translate scopes properly.
-														# prev = {
-														# 	random_owned_ship = {
-														# 		fire_on_action = {
-														# 			on_action = on_survey
-														# 			scopes = {
-														# 				from = prevprev
-														# 			}
-														# 		}
-														# 	}
-														# }
+														set_timed_planet_flag = {
+															flag = test1
+															days = 1
+														}
+														sfex_survey_order_complete = yes
 													}
 												}
 												failed = {
@@ -199,17 +193,18 @@ fleet_event = {
 												}
 												found_planet = {
 													move_to = this
-													wait = 5
+													orbit_planet = this
+													wait = 3
 													effect = {
 														id = sfex_survey_order.2.e2
 														set_timed_planet_flag = {
 															flag = sfex_planet_flag_survey_completed@prev
-															days = 1
+															days = 10
 														}
 														prev = {
 															set_timed_fleet_flag = {
 																flag = sfex_fleet_flag_survey_completed@prev
-																days = 1
+																days = 10
 															}
 														}
 														if = {
@@ -222,17 +217,11 @@ fleet_event = {
 															surveyed = yes
 															surveyor = prev.owner
 														}
-														# Bugged vanilla effect. Does not translate scopes properly.
-														# prev = {
-														# 	random_owned_ship = {
-														# 		fire_on_action = {
-														# 			on_action = on_survey
-														# 			scopes = {
-														# 				from = prevprev
-														# 			}
-														# 		}
-														# 	}
-														# }
+														set_timed_planet_flag = {
+															flag = test1
+															days = 1
+														}
+														sfex_survey_order_complete = yes
 														prev = {
 															queue_actions = {
 																wait = 1

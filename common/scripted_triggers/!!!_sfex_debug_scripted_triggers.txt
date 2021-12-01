@@ -1,16 +1,16 @@
-# Blank scripted triggers from other mods to clean up error.log. Always allow overwrite! scripted_triggers overwrites are LIOS therefore this file starts with !!!.
+# Blank scripted triggers from other mods to clean up error.log. Always allow being overwritten! scripted_triggers overwrites are LIOS therefore this file starts with !!!.
 cohesive_system = {
-	# Dummy SFEX scripted_trigger. ALLOW OVERWRITE.
+	# Dummy SFEX scripted_trigger. ALLOW BEING OVERWRITTEN.
 }
 
 urmazin_system = {
-	# Dummy SFEX scripted_trigger. ALLOW OVERWRITE.
+	# Dummy SFEX scripted_trigger. ALLOW BEING OVERWRITTEN.
 }
 
 everchanging_system = {
-	# Dummy SFEX scripted_trigger. ALLOW OVERWRITE.
+	# Dummy SFEX scripted_trigger. ALLOW BEING OVERWRITTEN.
 }
 
 katzen_jump_blocked_system = {
-	# Dummy SFEX scripted_trigger. ALLOW OVERWRITE.
+	# Dummy SFEX scripted_trigger. ALLOW BEING OVERWRITTEN.
 }

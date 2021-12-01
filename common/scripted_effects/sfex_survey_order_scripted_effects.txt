@@ -1,0 +1,68 @@
+# Planet has been surveyed by SFEX.
+sfex_survey_order_complete = {
+	prev = {
+		random_owned_ship = {
+			fire_on_action = {
+				on_action = on_survey
+				# A ship has surveyed a planet.
+				# Scope = Ship
+				# From = Planet
+				scopes = {
+					from = prevprev
+				}
+			}
+		}
+	}
+	# on_planet_surveyed fires automatically after on_survey.
+	# fire_on_action = {
+	# 	on_action = on_planet_surveyed
+	# 	# A country has gained a surveyed status on a planet. Happens after "on_survey" if a science ship surveyed a planet.
+	# 	# Root = Planet
+	# 	# From = Country
+	# 	# FromFrom = Fleet of the science ship that surveyed it, if any
+	# 	scopes = {
+	# 		from = prev.owner
+	# 		fromfrom = prev
+	# 	}
+	# }
+	if = {
+		limit = {
+			solar_system = {
+				NOT = {
+					any_system_planet = {
+						is_surveyed = {
+							who = prevprevprev.owner
+							status = no
+						}
+					}
+				}
+			}
+		}
+		prev = {
+			owner = {
+				fire_on_action = {
+					on_action = on_system_survey
+					# A country has gained a surveyed status on a planet (system?). Happens after "on_survey" if a science ship surveyed a planet.
+					# Root = Country
+					# From = system
+					# FromFrom = Fleet of the science ship that surveyed it, if any
+					scopes = {
+						from = prevprev.solar_system
+						fromfrom = prev
+					}
+				}
+			}
+			random_owned_ship = {
+				fire_on_action = {
+					on_action = on_system_survey_ship
+					# A ship is done surveying the last unsurveyed planet in a system
+					# Scope = ship
+					# From = system
+					scopes = {
+						from = prevprev.solar_system
+					}
+				}
+			}
+		}
+	}
+}
