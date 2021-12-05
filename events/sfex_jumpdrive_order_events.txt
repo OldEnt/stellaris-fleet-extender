@@ -124,6 +124,7 @@ fleet_event = {
 				which = acemod_var_fleet_piloted_exclusion				# acemod_set_fleet_piloted_exclusion_off = yes
 				value = 0
 			}
+			sfex_core_fire_on_order_fail = yes
 		}
 	}
 }
@@ -267,6 +268,7 @@ fleet_event = {
 							}
 							else = {
 								log = "sfex_jumpdrive_order.4: sfex_jumpdrive_order_set_location effect unexpectedly failed."
+								sfex_core_fire_on_order_fail = yes
 							}
 						}
 					}
@@ -307,13 +309,17 @@ fleet_event = {
 									}
 								}
 								else = {
-									log = "sfex_jumpdrive_order.4: set_location effect unexpectedly failed."
+									log = "sfex_jumpdrive_order.4: set_location effect unexpectedly failed (num_planets_in_system >= 1)."
+									sfex_core_fire_on_order_fail = yes
 								}
 							}
 						}
 					}
 					else = {
 						log = "sfex_jumpdrive_order.4: No planets in the system to jump onto."
+						prev = {
+							sfex_core_fire_on_order_fail = yes
+						}
 					}
 				}
 				else = {

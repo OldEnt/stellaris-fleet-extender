@@ -3,9 +3,3 @@
 # FromFrom = ORIGIN System
 sfex_on_jumpdrive_order_complete = {
 }
-
-# Root = Fleet
-# From = TARGET System
-# FromFrom = ORIGIN System
-sfex_on_jumpdrive_order_fail = {
-}

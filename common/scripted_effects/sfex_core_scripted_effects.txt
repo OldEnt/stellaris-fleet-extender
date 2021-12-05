@@ -179,6 +179,7 @@ sfex_set_fleet_order = {
 		}
 		else = {
 			log = "sfex_set_fleet_order: Unsupported scope operator or scope does not exist. event_targets must be referenced by name only."
+			sfex_core_fire_on_order_fail = yes
 		}
 	}
 	]
@@ -234,6 +235,9 @@ sfex_set_fleet_order = {
 			}
 			else = {
 				log = "sfex_set_fleet_order: only build starbase ORDER does not require TARGET."
+				prev = {
+					sfex_core_fire_on_order_fail = yes
+				}
 			}
 		}
 	}
@@ -345,13 +349,14 @@ sfex_set_fleet_order = {
 						megastructure = {
 						}
 						default = {
+							log = "ORDER jumpdrive: invalid scope type. Must be galactic_object (solar_system), ambient_object, planet, fleet or megastructure. "
 							prev = {
 								set_timed_fleet_flag = {
 									flag = sfex_core_scope_1_invalid
 									days = 1
 								}
+								sfex_core_fire_on_order_fail = yes
 							}
-							log = "ORDER jumpdrive: invalid scope type. Must be galactic_object (solar_system), ambient_object, planet, fleet or megastructure. "
 						}
 					}
 				}
@@ -366,13 +371,14 @@ sfex_set_fleet_order = {
 						galactic_object = {
 						}
 						default = {
+							log = "ORDER build: invalid scope type. Must be planet or galactic_object (for starbase)."
 							prev = {
 								set_timed_fleet_flag = {
 									flag = sfex_core_scope_1_invalid
 									days = 1
 								}
+								sfex_core_fire_on_order_fail = yes
 							}
-							log = "ORDER build: invalid scope type. Must be planet or galactic_object (for starbase)."
 						}
 					}
 				}
@@ -387,13 +393,14 @@ sfex_set_fleet_order = {
 						galactic_object = {
 						}
 						default = {
+							log = "ORDER survey: invalid scope type. Must be planet or galactic_object (solar_system)."
 							prev = {
 								set_timed_fleet_flag = {
 									flag = sfex_core_scope_1_invalid
 									days = 1
 								}
+								sfex_core_fire_on_order_fail = yes
 							}
-							log = "ORDER survey: invalid scope type. Must be planet or galactic_object (solar_system)."
 						}
 					}
 				}
@@ -555,6 +562,7 @@ sfex_set_fleet_order = {
 								}
 								else = {
 									log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned false."
+									sfex_core_fire_on_order_fail = yes
 								}
 							}
 							else = {
@@ -563,6 +571,7 @@ sfex_set_fleet_order = {
 						}
 						else = {
 							log = "sfex_jumpdrive_order_can_jump_drive_scripted_trigger returned false."
+							sfex_core_fire_on_order_fail = yes
 						}
 					}
 					else = {
@@ -588,6 +597,7 @@ sfex_set_fleet_order = {
 							}
 							else = {
 								log = "sfex_jumpdrive_order_can_enter_system_by_jump_scripted_trigger returned false."
+								sfex_core_fire_on_order_fail = yes
 							}
 						}
 						else = {
@@ -597,6 +607,7 @@ sfex_set_fleet_order = {
 				}
 				else = {
 					log = "ORDER jumpdrive: event_target:sfex_core_event_target_1 does not exist."
+					sfex_core_fire_on_order_fail = yes
 				}
 			}
 			# build_order
@@ -637,6 +648,7 @@ sfex_set_fleet_order = {
 				}
 				else = {
 					log = "ORDER build: event_target:sfex_core_event_target_1 does not exist."
+					sfex_core_fire_on_order_fail = yes
 				}
 			}
 			# survey_order
@@ -651,10 +663,12 @@ sfex_set_fleet_order = {
 				}
 				else = {
 					log = "ORDER survey: event_target:sfex_core_event_target_1 does not exist."
+					sfex_core_fire_on_order_fail = yes
 				}
 			}
 			default = {
 				log = "sfex_set_fleet_order: ORDER must be: jumpdrive build survey."
+				sfex_core_fire_on_order_fail = yes
 			}
 		}
 	}
@@ -728,11 +742,13 @@ sfex_core_evaluate_scripted_triggers_and_jump_effect = {
 			}
 			else = {
 				log = "sfex_jumpdrive_order_target_in_range_scripted_trigger returned false."
+				sfex_core_fire_on_order_fail = yes
 			}
 		}
 	}
 	else = {
 		log = "sfex_jumpdrive_order_has_ftl_drive_scripted_trigger returned false."
+		sfex_core_fire_on_order_fail = yes
 	}
 }
 
@@ -777,5 +793,24 @@ sfex_set_fleet_order_survey = {
 		ORDER = survey
 		MODNAME = $MODNAME|sfex_set_fleet_order_survey$
 		TARGET = $TARGET|solar_system$
+	}
+}
+
+# This = Fleet
+sfex_core_fire_on_order_fail = {
+	if = {
+		limit = {
+			NOT = {
+				has_fleet_flag = sfex_fleet_flag_order_fail
+			}
+		}
+		set_timed_fleet_flag = {
+			flag = sfex_fleet_flag_order_fail
+			days = 1
+		}
+		# Root = Fleet
+		fire_on_action = {
+			on_action = sfex_on_order_fail
+		}
 	}
 }

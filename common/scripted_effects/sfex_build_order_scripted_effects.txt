@@ -36,6 +36,9 @@ sfex_build_order_structures_starbase = {
 		}
 		else = {
 			log = "sfex_custom_on_action_build_order: event_target:sfex_core_event_target_1 is neither galactic_object nor planet. Unable to build starbase."
+			prev = {
+				sfex_core_fire_on_order_fail = yes
+			}
 		}
 	}
 	if = {

@@ -162,6 +162,8 @@ fleet_event = {
 															}
 															log = "sfex_survey_order.2.l3: No planet to survey found or interrupted."
 														}
+														# Fail can be expected if survey is done.
+														# sfex_core_fire_on_order_fail = yes
 													}
 												}
 											}
@@ -261,6 +263,8 @@ fleet_event = {
 																			}
 																			log = "sfex_survey_order.2.e3: No planet to survey found or interrupted."
 																		}
+																		# Fail can be expected if survey is done.
+																		# sfex_core_fire_on_order_fail = yes
 																	}
 																}
 															}
@@ -280,6 +284,8 @@ fleet_event = {
 															}
 															log = "sfex_survey_order.2.l2: No planet to survey found or interrupted."
 														}
+														# Fail can be expected if survey is done.
+														# sfex_core_fire_on_order_fail = yes
 													}
 												}
 											}
@@ -289,26 +295,34 @@ fleet_event = {
 							}
 							else = {
 								log = "sfex_survey_order.2: event_target:sfex_core_event_target_1 must be a planet OR galactic_object (solar_system)."
+								prev = {
+									sfex_core_fire_on_order_fail = yes
+								}
 							}
 						}
 						else = {
 							log = "sfex_survey__order.2: Science ship must be in the same system as event_target:sfex_core_event_target_1 (location)."
+							sfex_core_fire_on_order_fail = yes
 						}
 					}
 					else = {
 						log = "sfex_survey_order.2: object must be fleet scope and shipclass_science_ship or have sfex_fleet_flag_shipclass_science_ship."
+						sfex_core_fire_on_order_fail = yes
 					}
 				}
 				else = {
 					log = "sfex_survey_order.2: event_target:sfex_core_event_target_1 must not be surveyed by fleet owner."
+					sfex_core_fire_on_order_fail = yes
 				}
 			}
 			else = {
 				log = "sfex_survey_order.2: solar_system.owner must not exist (or invalid scope type, must be planet OR galactic_object (solar_system))."
+				sfex_core_fire_on_order_fail = yes
 			}
 		}
 		else = {
 			log = "sfex_survey_order.2: event_target:sfex_core_event_target_1 is not set (location)."
+			sfex_core_fire_on_order_fail = yes
 		}
 	}
 }

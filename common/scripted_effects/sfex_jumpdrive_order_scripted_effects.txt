@@ -106,6 +106,20 @@ sfex_jumpdrive_order_export_planets_in_system_distance_to_centre_point = {
 	}
 	else = {
 		log = "sfex_jumpdrive_order_export_distance_to_centre_point: is_primary_star does not exist."
+		if = {
+			limit = {
+				is_scope_set = prev
+				prev = {
+					is_scope_type = fleet
+					has_fleet_flag = sfex_fleet_flag_jumpdrive_windup
+				
+				}
+			}
+			prev = {
+				sfex_core_fire_on_order_fail = yes
+			}
+		}
+		
 	}
 }
 
@@ -122,7 +136,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 1
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -140,7 +153,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 2
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -158,7 +170,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 3
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -176,7 +187,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 4
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -194,7 +204,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 5
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -212,7 +221,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 6
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -230,7 +238,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 7
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -248,7 +255,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 8
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -266,7 +272,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 9
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -284,7 +289,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 10
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -302,7 +306,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 11
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -320,7 +323,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 12
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -338,7 +340,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 13
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -356,7 +357,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 14
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -374,7 +374,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 15
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {
@@ -392,7 +391,6 @@ sfex_jumpdrive_order_measure_origin_distance_to_target_save_var_to_fleet = {
 				max_distance <= 16
 				same_solar_system = no
 				type = euclidean
-
 			}
 		}
 		event_target:sfex_jumpdrive_order_var_measure_storage = {

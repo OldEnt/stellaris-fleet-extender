@@ -1,3 +1,7 @@
 ﻿l_english:
  sfex_core: "Stellaris Fleet EXtender"
+ sfex_menu_name: "$sfex_core$"
  sfex_jump_drive_order_cooldown: "$JUMP_DRIVE_1$"
+ sfex_menu.1.name: "$sfex_core$: $SETTINGS$"
+ sfex_menu.1.desc: "$SETTINGS$"
+ sfex_menu.1.z: "§Y$SAVE$§!"

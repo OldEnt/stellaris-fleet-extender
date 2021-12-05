@@ -103,10 +103,12 @@ fleet_event = {
 									}
 									else = {
 										log = "sfex_build_order.2: owner of event_target:sfex_core_event_target_1 (solar_system) must not exist. Unable to construct starbase."
+										sfex_core_fire_on_order_fail = yes
 									}
 								}
 								else = {
 									log = "sfex_build_order.2: event_target:sfex_core_event_target_1 does not contain planet which is_primary_star, unable to build starbase."
+									sfex_core_fire_on_order_fail = yes
 								}
 							}
 							else = {
@@ -134,6 +136,7 @@ fleet_event = {
 										}
 										else = {
 											log = "sfex_build_order.2: owner of event_target:sfex_core_event_target_1.solar_system must not exist. Unable to construct starbase."
+											sfex_core_fire_on_order_fail = yes
 										}
 									}
 									else = {
@@ -150,32 +153,39 @@ fleet_event = {
 										}
 										else = {
 											log = "sfex_build_order.2: owner of constructor and planet must be the same. Unable to construct station."
+											sfex_core_fire_on_order_fail = yes
 										}
 									}
 								}
 								else = {
 									log = "sfex_build_order.2: event_target:sfex_core_event_target_1 must be a planet."
+									sfex_core_fire_on_order_fail = yes
 								}
 							}
 						}
 						else = {
 							log = "sfex_build_order.2: event_target:sfex_core_event_target_1 must be a planet OR event_target:sfex_core_event_target_1 must be a galactic_object and event_target:sfex_event_target_build_order_structure must store valid structure type (outpost)."
+							sfex_core_fire_on_order_fail = yes
 						}
 					}
 					else = {
 						log = "sfex_build_order.2: event_target:sfex_event_target_build_order_structure is not set (structure type storage)."
+						sfex_core_fire_on_order_fail = yes
 					}
 				}
 				else = {
 					log = "sfex_build_order.2: Constructor must be in the same system as event_target:sfex_core_event_target_1 (location)."
+					sfex_core_fire_on_order_fail = yes
 				}
 			}
 			else = {
 				log = "sfex_build_order.2: object must be fleet scope and shipclass_constructor or have sfex_fleet_flag_shipclass_constructor."
+				sfex_core_fire_on_order_fail = yes
 			}
 		}
 		else = {
 			log = "sfex_build_order.2: event_target:sfex_core_event_target_1 is not set (location)."
+			sfex_core_fire_on_order_fail = yes
 		}
 	}
 }

@@ -1,0 +1,11 @@
+namespace = sfex_menu
+country_event = {
+	id = sfex_menu.1
+	title = sfex_menu.1.name
+	desc = sfex_menu.1.desc
+	picture = GFX_evt_machine_space_battle
+	is_triggered_only = yes
+	option = {
+		name = sfex_menu.1.z
+	}
+}

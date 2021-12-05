@@ -1,3 +1,4 @@
 ﻿l_default:
  sfex_core: "sfex_core"
+ sfex_core_debug: "sfex_core_debug"
  sfex_name_register: "sfex_name_register"
