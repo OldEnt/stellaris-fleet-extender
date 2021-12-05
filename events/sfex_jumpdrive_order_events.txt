@@ -161,7 +161,7 @@ fleet_event = {
 							}
 						}
 						sfex_jumpdrive_order_export_planets_in_system_distance_to_centre_point = yes
-						# Not working in 3.1.
+						# Not working in 3.2.2
 						# if = {
 						# 	limit = {
 						# 		any_system_planet = {
@@ -241,16 +241,32 @@ fleet_event = {
 						}
 						sfex_jumpdrive_order_set_location = yes
 						prevprev = {
-							sfex_jumpdrive_order_apply_cooldown_effect = yes
-							# Root = Fleet
-							# From = TARGET System - does not work in 3.1.1
-							# FromFrom = ORIGIN System - does not work in 3.1.1
-							fire_on_action = {
-								on_action = sfex_on_jumpdrive_order_complete
-								scopes = {
-									from = solar_system
-									fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+							if = {
+								limit = {
+									solar_system = {
+										is_same_value = prevprev
+									}
 								}
+								sfex_jumpdrive_order_apply_cooldown_effect = yes
+								if = {
+									limit = {
+										has_global_flag = sfex_verbose_logging_enabled
+									}
+									log = "Fleet [this.GetName] completed [this.sfex_jumpdrive_order_var_distance_interstellar_measured] distance jump from [sfex_event_target_solar_system_origin_jumpdrive_windup.GetName] to [solar_system.GetName]. Executing sfex_on_jumpdrive_order_complete on_action."
+								}
+								# Root = Fleet
+								# From = TARGET System
+								# FromFrom = ORIGIN System
+								fire_on_action = {
+									on_action = sfex_on_jumpdrive_order_complete
+									scopes = {
+										from = solar_system
+										fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+									}
+								}
+							}
+							else = {
+								log = "sfex_jumpdrive_order.4: sfex_jumpdrive_order_set_location effect unexpectedly failed."
 							}
 						}
 					}
@@ -266,16 +282,32 @@ fleet_event = {
 									angle = 0
 									direction = in_system
 								}
-								sfex_jumpdrive_order_apply_cooldown_effect = yes
-								# Root = Fleet
-								# From = TARGET System - does not work in 3.1.1
-								# FromFrom = ORIGIN System - does not work in 3.1.1
-								fire_on_action = {
-									on_action = sfex_on_jumpdrive_order_complete
-									scopes = {
-										from = solar_system
-										fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+								if = {
+									limit = {
+										solar_system = {
+											is_same_value = prev.solar_system
+										}
 									}
+									sfex_jumpdrive_order_apply_cooldown_effect = yes
+									if = {
+										limit = {
+											has_global_flag = sfex_verbose_logging_enabled
+										}
+										log = "Fleet [this.GetName] completed [this.sfex_jumpdrive_order_var_distance_interstellar_measured] distance jump from [sfex_event_target_solar_system_origin_jumpdrive_windup.GetName] to [solar_system.GetName]. Executing sfex_on_jumpdrive_order_complete on_action."
+									}
+									# Root = Fleet
+									# From = TARGET System
+									# FromFrom = ORIGIN System
+									fire_on_action = {
+										on_action = sfex_on_jumpdrive_order_complete
+										scopes = {
+											from = solar_system
+											fromfrom = event_target:sfex_event_target_solar_system_origin_jumpdrive_windup
+										}
+									}
+								}
+								else = {
+									log = "sfex_jumpdrive_order.4: set_location effect unexpectedly failed."
 								}
 							}
 						}
